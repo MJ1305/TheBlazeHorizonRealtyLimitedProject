@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link as ScrollLink } from 'react-scroll'
 import PropertyCard from './PropertyCard'
 
 import build4 from './Images/img4.jpeg'
@@ -6,6 +7,13 @@ import build2 from './Images/img2.jpeg'
 import build3 from './Images/img3.jpeg'
 
 const HomePage = ({ setCurrentPage }) => {
+  // State for FAQ accordion
+  const [openFaq, setOpenFaq] = useState(null)
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index)
+  }
+
   // Featured properties
   const featuredProperties = [
     {
@@ -107,6 +115,34 @@ const HomePage = ({ setCurrentPage }) => {
     }
   ]
 
+  // FAQ Data - NO IDs needed!
+  const faqs = [
+    {
+      question: 'What types of properties do you offer?',
+      answer: 'We offer a wide range of properties including luxury apartments, commercial spaces, residential homes, and undeveloped land for investment. Our portfolio spans across prime locations to suit various budgets and preferences.'
+    },
+    {
+      question: 'How do I schedule a property viewing?',
+      answer: 'You can schedule a property viewing by clicking the "Book a Tour" button on our navigation bar, or by visiting our Contact page. Our team will reach out within 24 hours to arrange a convenient time for your viewing.'
+    },
+    {
+      question: 'Do you offer financing options?',
+      answer: 'Yes, we partner with reputable financial institutions to offer flexible financing options. Our team can guide you through mortgage options, payment plans, and investment financing tailored to your financial situation.'
+    },
+    {
+      question: 'What documents do I need to purchase a property?',
+      answer: 'Typically, you\'ll need a valid government-issued ID, proof of income, bank statements, and tax identification number. Our legal team will guide you through all documentation requirements specific to your chosen property.'
+    },
+    {
+      question: 'Are your properties verified and legal?',
+      answer: 'Absolutely! Every property in our portfolio undergoes thorough due diligence, including title verification, legal checks, and survey validation. We ensure all documentation is authentic and legally binding before listing.'
+    },
+    {
+      question: 'Can non-Nigerians invest in your properties?',
+      answer: 'Yes, we welcome international investors. Our team specializes in guiding foreign investors through the legal requirements, including obtaining necessary permits and understanding local real estate laws.'
+    }
+  ]
+
   return (
     <div>
       {/* Hero Section */}
@@ -124,36 +160,41 @@ const HomePage = ({ setCurrentPage }) => {
           <div className="inline-block px-4 py-1.5 bg-brand-yellow/10 border border-brand-yellow/20 rounded-full mb-6">
             <span className="text-brand-yellow text-[10px] text-white font-black tracking-[0.4em] uppercase">Premium Real Estate Solutions</span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-black text-white mb-8 leading-[1.1] tracking-tighter">
-            EXPERIENCE <br/> <span className="text-brand-yellow uppercase">Royal</span> LIVING
+          <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter">
+           MAKING YOUR DREAM HOME A REALITY
           </h1>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <button 
-              onClick={() => setCurrentPage('listings')}
-              className="bg-brand-yellow text-gray-900 px-10 py-5 rounded-lg font-black uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(255,209,59,0.3)] transition-all"
-            >
-              Explore Collections
-            </button>
-            <button 
-              onClick={() => document.getElementById('home-about-summary').scrollIntoView({behavior:'smooth'})}
-              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-10 py-5 rounded-lg font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
+          <div className="flex flex-col sm:flex-row gap-5 justify-around">            
+            <ScrollLink
+              to="home-about-summary"
+              smooth={true}
+              duration={1200}
+              offset={-80}
+              spy={true}
+              hashSpy={true}
+              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-10 py-5 rounded-lg font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all cursor-pointer"
             >
               Our Story
+            </ScrollLink>
+            <button 
+              onClick={() => setCurrentPage('listings')}
+              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-10 py-5 rounded-lg font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
+            >
+              Explore Collections
             </button>
           </div>
         </div>
       </header>
 
       {/* About Summary */}
-      <section id="home-about-summary" className="py-24 px-6 bg-gray-900 text-white border-b border-white/5">
+      <section id="home-about-summary" className="py-24 px-6 bg-gray-900 text-white border-red-500 border border-white/5">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Who We Are</span>
+            <span className="text-brand-yellow text-[20px] font-black tracking-[0.3em] uppercase mb-4 block">Who We Are</span>
             <h2 className="text-4xl font-black mb-6">Redefining Real Estate <br/> Across Borders</h2>
-            <p className="text-gray-400 leading-relaxed mb-8 max-w-lg">Kingdom Firm Properties is a leading investment partner, helping individuals and corporations secure high-value land and residential assets with absolute transparency.</p>
+            <p className="text-gray-400 leading-relaxed mb-8 max-w-lg">Blaze Horizon is a leading investment partner, helping individuals and corporations secure high-value land and residential assets with absolute transparency.</p>
             <button 
               onClick={() => setCurrentPage('about')}
-              className="bg-brand-yellow text-gray-900 hover:bg-white/20 px-8 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
+              className="bg-yellow-400 text-gray-900 hover:scale-105 transition-all duration-700 px-8 py-4 rounded-xl text-xs font-black uppercase tracking-widest"
             >
               Learn More About Us
             </button>
@@ -175,6 +216,7 @@ const HomePage = ({ setCurrentPage }) => {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -229,8 +271,65 @@ const HomePage = ({ setCurrentPage }) => {
         </div>
       </section>
 
-      {/* Customer Reviews */}
+      {/* FAQs Section - NEW! */}
       <section className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Got Questions?</span>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Frequently Asked <span className="text-brand-yellow">Questions</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Find answers to common questions about our properties, process, and services
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div 
+                key={index}
+                className="border border-gray-200 rounded-2xl overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300"
+              >
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-300"
+                >
+                  <span className="font-black text-gray-900 text-lg pr-4">{faq.question}</span>
+                  <span className="text-brand-yellow text-2xl flex-shrink-0">
+                    {openFaq === index ? '−' : '+'}
+                  </span>
+                </button>
+                <div 
+                  className={`transition-all duration-300 ease-in-out ${
+                    openFaq === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  } overflow-hidden`}
+                >
+                  <div className="px-6 pb-6 pt-2">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Still have questions? */}
+          <div className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
+            <p className="text-gray-700 mb-4">Still have questions?</p>
+            <button 
+              onClick={() => setCurrentPage('contact')}
+              className="bg-brand-yellow text-gray-900 font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+            >
+              Contact Us
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Reviews */}
+      <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto text-center mb-16">
           <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Testimonials</span>
           <h2 className="text-4xl font-black text-gray-900">What Our Clients Say</h2>

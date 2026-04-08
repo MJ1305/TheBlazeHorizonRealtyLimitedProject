@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import Logo from "./Images/imglogo.jpeg"
+
 const Navigation = ({ currentPage, setCurrentPage }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isHomePage, setIsHomePage] = useState(currentPage === 'home')
@@ -50,7 +52,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           onClick={() => setCurrentPage('home')} 
           className="text-2xl font-black tracking-tight text-white flex items-center"
         >
-          <span className="text-brand-yellow">KINGDOM</span>FIRM
+          {/* <span className="text-brand-yellow">BLAZE HORIZON REALTY LIMITED </span> */}
+          <img className='w-[8rem] h-[3.5rem] rounded-xl' src={Logo} alt="/image" />
         </button>
 
         <div className="hidden md:flex items-center space-x-10">

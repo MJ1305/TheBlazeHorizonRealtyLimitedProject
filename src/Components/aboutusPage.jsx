@@ -1,5 +1,7 @@
 import React from 'react'
 
+import build3 from './Images/img3.jpeg'
+
 const AboutPage = () => {
   // Core values - NO IDs needed!
   const values = [
@@ -49,8 +51,8 @@ const AboutPage = () => {
     <div className="pt-24">
       {/* Hero */}
       <section className="py-24 px-6 bg-gray-900 text-white text-center">
-        <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">Since 2014</span>
-        <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
+        <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Since 2014</span>
+        <h2 className="text-6xl md:text-7xl font-black mb-8 leading-tight">
           Elevating Global <br/> <span className="text-brand-yellow">Real Estate Standards</span>
         </h2>
         <p className="max-w-2xl mx-auto text-gray-400 leading-relaxed text-lg">
@@ -62,8 +64,8 @@ const AboutPage = () => {
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">Our Services</span>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">What We Do</h2>
+            <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Our Services</span>
+            <h2 className="text-6xl md:text-5xl font-black text-gray-900 mb-4">What We Do</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We secure suitable homes and profitable investment deals tailored to your income level.
             </p>
@@ -91,7 +93,7 @@ const AboutPage = () => {
           </div>
 
           {/* Website Link */}
-          <div className="text-center mt-12">
+          {/* <div className="text-center mt-12">
             <a 
               href="https://www.kingdomfirmpropertiesng.com" 
               target="_blank" 
@@ -103,7 +105,7 @@ const AboutPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -126,7 +128,7 @@ const AboutPage = () => {
           </div>
           <div className="bg-gray-100 rounded-[3rem] overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80" 
+              src={build3} 
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
               alt="Office building"
             />
@@ -138,8 +140,8 @@ const AboutPage = () => {
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">Core Values</span>
-            <h2 className="text-4xl font-black text-gray-900">The Kingdom Code</h2>
+            <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Core Values</span>
+            <h2 className="text-6xl font-black text-gray-900">The Horizon Code</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (

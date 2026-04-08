@@ -9,7 +9,7 @@ import build4 from './Images/img4.jpeg'
 import build5 from './Images/img5.jpg'
 import build6 from './Images/img6.jpg'
 
-const ListingsPage = () => {
+const Listing = () => {
   const [activeFilter, setActiveFilter] = useState('all')
   
   // Properties data with local images
@@ -152,4 +152,4 @@ const ListingsPage = () => {
   )
 }
 
-export default ListingsPage
+export default Listing
