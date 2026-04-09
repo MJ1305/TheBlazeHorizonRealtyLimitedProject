@@ -43,7 +43,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 py-5 px-6 md:px-12 lg:px-24 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#111827] border-white/5' 
+          ? 'bg-[#03302b] border-white/5' 
           : 'bg-transparent'
       }`}
     >
@@ -72,7 +72,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
 
         <button 
           onClick={() => setCurrentPage('contact')}
-          className={`hidden md:block bg-yellow-400 text-gray-900 font-black py-2.5 px-6 rounded-md text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700 `}
+          className={`hidden md:block bg-[#fa8e12] text-gray-900 font-black py-2.5 px-6 rounded-md text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700 `}
         >
           Book a Tour
         </button>

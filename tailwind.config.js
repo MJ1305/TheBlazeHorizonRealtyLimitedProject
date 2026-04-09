@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
        backgroundImage:{
-        Background01:"url('/src/Components/Images/img7.jpeg')"
+        Background01:"url('/src/Components/Images/img2.jpeg')",
+        Background02:"url('/src/Components/Images/img1.jpeg')",
+        Background03:"url('/src/Components/Images/img10.jpg')"
       }
     },
    

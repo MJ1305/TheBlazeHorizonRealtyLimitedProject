@@ -6,9 +6,12 @@ import Listing from './Components/listingPage'
 import AboutPage from './Components/aboutusPage'
 import ContactPage from './Components/contactPage'
 import BackToTop from './Components/backToTop'
+import PropertyDetails from './Components/propertyDetails'
+import BookTour from './Components/bookTour'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
+  const [selectedProperty, setSelectedProperty] = useState(null)
 
   // Scroll to top whenever currentPage changes
   useEffect(() => {
@@ -24,11 +27,22 @@ function App() {
       case 'home':
         return <HomePage setCurrentPage={setCurrentPage} />
       case 'listings':
-        return <Listing />
+        return <Listing setCurrentPage={setCurrentPage} setSelectedProperty={setSelectedProperty} />
       case 'about':
         return <AboutPage />
       case 'contact':
         return <ContactPage />
+      case 'property-details':
+        return <PropertyDetails 
+          property={selectedProperty}
+          setCurrentPage={setCurrentPage}
+          setSelectedProperty={setSelectedProperty}
+        />
+      case 'book-tour':
+        return <BookTour 
+          setCurrentPage={setCurrentPage}
+          selectedProperty={selectedProperty}
+        />
       default:
         return <HomePage setCurrentPage={setCurrentPage} />
     }

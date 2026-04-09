@@ -2,13 +2,13 @@ import React from 'react'
 
 const PropertyCard = ({ 
   title, 
-  price, 
   location, 
   image, 
   type, 
   beds, 
   baths, 
-  sqft 
+  sqft,
+  onMoreInfo 
 }) => {
   return (
     <div className="group bg-grey-200 rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
@@ -39,14 +39,16 @@ const PropertyCard = ({
           <span>{sqft} sqft</span>
         </div>
         
-        <div className="flex justify-between items-center mt-auto">
-          <span className="text-2xl font-black text-gray-900 tracking-tighter">{price}</span>
-          <button className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center hover:bg-brand-yellow hover:text-gray-900 transition-colors group">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </button>
-        </div>
+        {/* More Info Button */}
+        <button 
+          onClick={onMoreInfo}
+          className="w-full bg-[#03302b] text-white py-3 rounded-full flex items-center justify-center gap-2 hover:bg-brand-yellow hover:text-[#03302b] transition-all duration-300 group mt-auto"
+        >
+          <span className="text-xs font-black uppercase tracking-widest">More Info</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
       </div>
     </div>
   )

@@ -24,7 +24,7 @@ const HomePage = ({ setCurrentPage }) => {
       sqft: '2,400',
       image: build3,
       badge: 'Featured',
-      badgeColor: 'bg-gray-900 text-white'
+      badgeColor: 'bg-[#03302b] text-white'
     },
     {
       title: 'Sapphire Heights',
@@ -34,7 +34,7 @@ const HomePage = ({ setCurrentPage }) => {
       sqft: '4,800',
       image: build3,
       badge: 'New',
-      badgeColor: 'bg-brand-yellow text-gray-900'
+      badgeColor: 'bg-brand-yellow text-[#03302b]'
     },
     {
       title: 'Sapphire Heights',
@@ -44,7 +44,7 @@ const HomePage = ({ setCurrentPage }) => {
       sqft: '4,800',
       image: build3,
       badge: 'New',
-      badgeColor: 'bg-brand-yellow text-gray-900'
+      badgeColor: 'bg-brand-yellow text-[#03302b]'
     }
   ]
 
@@ -55,14 +55,14 @@ const HomePage = ({ setCurrentPage }) => {
       rating: 5,
       text: '"Kingdom Firm made our home buying experience incredibly smooth. Their professionalism and transparency are unmatched."',
       bgColor: 'bg-white',
-      textColor: 'text-gray-600',
+      textColor: 'text-[#03302b]',
       avatar: 'https://i.pravatar.cc/100?u=1'
     },
     {
       name: 'Sarah Smith',
       rating: 5,
       text: '"As an investor, I value speed and accuracy. The team at Kingdom Firm provides both consistently."',
-      bgColor: 'bg-gray-900',
+      bgColor: 'bg-[#03302b]',
       textColor: 'text-gray-300',
       avatar: 'https://i.pravatar.cc/100?u=2'
     },
@@ -71,7 +71,7 @@ const HomePage = ({ setCurrentPage }) => {
       rating: 5,
       text: '"Found my dream penthouse through their exclusive portfolio."',
       bgColor: 'bg-white',
-      textColor: 'text-gray-600',
+      textColor: 'text-[#03302b]',
       avatar: 'https://i.pravatar.cc/100?u=3'
     }
   ]
@@ -87,7 +87,7 @@ const HomePage = ({ setCurrentPage }) => {
       title: 'Best Locations',
       description: 'Prime properties in premium neighborhoods',
       icon: '📍',
-      color: 'bg-gray-900/5'
+      color: 'bg-[#03302b]/5'
     },
     {
       title: 'Transparent Process',
@@ -99,7 +99,7 @@ const HomePage = ({ setCurrentPage }) => {
       title: '24/7 Support',
       description: 'Round-the-clock customer service',
       icon: '🕐',
-      color: 'bg-gray-900/5'
+      color: 'bg-[#03302b]/5'
     },
     {
       title: 'Best Prices',
@@ -111,7 +111,7 @@ const HomePage = ({ setCurrentPage }) => {
       title: 'Legal Assurance',
       description: 'Proper documentation and title verification',
       icon: '⚖️',
-      color: 'bg-gray-900/5'
+      color: 'bg-[#03302b]/5'
     }
   ]
 
@@ -153,7 +153,7 @@ const HomePage = ({ setCurrentPage }) => {
             className="w-full h-full object-cover scale-105" 
             alt="Hero background"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-gray-900"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-[#03302b]/80"></div>
         </div>
         
         <div className="relative z-10 max-w-5xl mx-auto animate-fade-in">
@@ -186,15 +186,15 @@ const HomePage = ({ setCurrentPage }) => {
       </header>
 
       {/* About Summary */}
-      <section id="home-about-summary" className="py-24 px-6 bg-gray-900 text-white border-red-500 border border-white/5">
+      <section id="home-about-summary" className="py-24 px-6 bg-[#03302b] text-white border-white/5">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="text-brand-yellow text-[20px] font-black tracking-[0.3em] uppercase mb-4 block">Who We Are</span>
             <h2 className="text-4xl font-black mb-6">Redefining Real Estate <br/> Across Borders</h2>
-            <p className="text-gray-400 leading-relaxed mb-8 max-w-lg">Blaze Horizon is a leading investment partner, helping individuals and corporations secure high-value land and residential assets with absolute transparency.</p>
+            <p className="text-gray-300 leading-relaxed mb-8 max-w-lg">Blaze Horizon is a leading investment partner, helping individuals and corporations secure high-value land and residential assets with absolute transparency.</p>
             <button 
               onClick={() => setCurrentPage('about')}
-              className="bg-yellow-400 text-gray-900 hover:scale-105 transition-all duration-700 px-8 py-4 rounded-xl text-xs font-black uppercase tracking-widest"
+              className="bg-[#fa8e12] text-[#03302b] hover:scale-105 transition-all duration-700 px-8 py-4 rounded-xl text-xs font-black uppercase tracking-widest"
             >
               Learn More About Us
             </button>
@@ -202,15 +202,15 @@ const HomePage = ({ setCurrentPage }) => {
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-white/5 p-6 rounded-2xl text-center border border-white/5">
               <h3 className="text-3xl font-black text-brand-yellow">10+</h3>
-              <p className="text-[9px] text-gray-500 uppercase font-black tracking-widest">Years</p>
+              <p className="text-[9px] text-gray-400 uppercase font-black tracking-widest">Years</p>
             </div>
             <div className="bg-white/5 p-6 rounded-2xl text-center border border-white/5">
               <h3 className="text-3xl font-black text-brand-yellow">200+</h3>
-              <p className="text-[9px] text-gray-500 uppercase font-black tracking-widest">Happy Clients</p>
+              <p className="text-[9px] text-gray-400 uppercase font-black tracking-widest">Happy Clients</p>
             </div>
             <div className="bg-white/5 p-6 rounded-2xl text-center border border-white/5">
               <h3 className="text-3xl font-black text-brand-yellow">50+</h3>
-              <p className="text-[9px] text-gray-500 uppercase font-black tracking-widest">Sold</p>
+              <p className="text-[9px] text-gray-400 uppercase font-black tracking-widest">Sold</p>
             </div>
           </div>
         </div>
@@ -221,10 +221,10 @@ const HomePage = ({ setCurrentPage }) => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[50px] font-black tracking-[0.3em] uppercase mb-4 block">Why Choose Us?</span>
-            <h2 className="text-3xl md:text-1xl font-black text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-1xl font-black text-[#03302b] mb-4">
               The <span className="text-brand-yellow">Kingdom</span> Advantage
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-[#03302b]/70 max-w-2xl mx-auto">
               We secure suitable homes and profitable investment deals tailored to your income level,
               And we treat every client with the reverence befitting royalty. Our pursuit of excellence ensures that every detail—from discerning property selection to seamless legal execution—is orchestrated with meticulous care and refined precision.
             </p>
@@ -239,8 +239,8 @@ const HomePage = ({ setCurrentPage }) => {
                 <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <span className="text-3xl">{item.icon}</span>
                 </div>
-                <h3 className="text-xl font-black text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-500 leading-relaxed">{item.description}</p>
+                <h3 className="text-xl font-black text-[#03302b] mb-3">{item.title}</h3>
+                <p className="text-[#03302b]/60 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -253,11 +253,11 @@ const HomePage = ({ setCurrentPage }) => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
               <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">New Arrivals</span>
-              <h2 className="text-4xl font-black text-gray-900">Featured Properties</h2>
+              <h2 className="text-4xl font-black text-[#03302b]">Featured Properties</h2>
             </div>
             <button 
               onClick={() => setCurrentPage('listings')}
-              className="bg-brand-yellow text-gray-900 font-black py-2.5 px-6 rounded-md text-xs uppercase hover:scale-105 transition-all duration-300"
+              className="bg-brand-yellow text-[#03302b] font-black py-2.5 px-6 rounded-md text-xs uppercase hover:scale-105 transition-all duration-300"
             >
               Browse All
             </button>
@@ -276,10 +276,10 @@ const HomePage = ({ setCurrentPage }) => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Got Questions?</span>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-black text-[#03302b] mb-4">
               Frequently Asked <span className="text-brand-yellow">Questions</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-[#03302b]/60 max-w-2xl mx-auto">
               Find answers to common questions about our properties, process, and services
             </p>
           </div>
@@ -294,7 +294,7 @@ const HomePage = ({ setCurrentPage }) => {
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-300"
                 >
-                  <span className="font-black text-gray-900 text-lg pr-4">{faq.question}</span>
+                  <span className="font-black text-[#03302b] text-lg pr-4">{faq.question}</span>
                   <span className="text-brand-yellow text-2xl flex-shrink-0">
                     {openFaq === index ? '−' : '+'}
                   </span>
@@ -305,7 +305,7 @@ const HomePage = ({ setCurrentPage }) => {
                   } overflow-hidden`}
                 >
                   <div className="px-6 pb-6 pt-2">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    <p className="text-[#03302b]/70 leading-relaxed">{faq.answer}</p>
                   </div>
                 </div>
               </div>
@@ -314,10 +314,10 @@ const HomePage = ({ setCurrentPage }) => {
 
           {/* Still have questions? */}
           <div className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
-            <p className="text-gray-700 mb-4">Still have questions?</p>
+            <p className="text-[#03302b]/70 mb-4">Still have questions?</p>
             <button 
               onClick={() => setCurrentPage('contact')}
-              className="bg-brand-yellow text-gray-900 font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+              className="bg-brand-yellow text-[#03302b] font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
             >
               Contact Us
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -332,7 +332,7 @@ const HomePage = ({ setCurrentPage }) => {
       <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto text-center mb-16">
           <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Testimonials</span>
-          <h2 className="text-4xl font-black text-gray-900">What Our Clients Say</h2>
+          <h2 className="text-4xl font-black text-[#03302b]">What Our Clients Say</h2>
         </div>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
@@ -343,7 +343,7 @@ const HomePage = ({ setCurrentPage }) => {
                 <div className="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
                   <img src={testimonial.avatar} alt={testimonial.name} />
                 </div>
-                <span className="font-bold text-xs uppercase tracking-widest">{testimonial.name}</span>
+                <span className="font-bold text-xs uppercase tracking-widest text-[#03302b]">{testimonial.name}</span>
               </div>
             </div>
           ))}
