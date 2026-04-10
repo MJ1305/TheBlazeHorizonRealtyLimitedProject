@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-
+import { Link, useLocation } from "react-router-dom"
 import Logo from "./Images/imglogo.jpeg"
 
-const Navigation = ({ currentPage, setCurrentPage }) => {
+const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isHomePage, setIsHomePage] = useState(currentPage === 'home')
-
-  useEffect(() => {
-    // Update isHomePage when currentPage changes
-    setIsHomePage(currentPage === 'home')
-  }, [currentPage])
+  const location = useLocation()
+  const currentPath = location.pathname
+  
+  // Check if current page is home
+  const isHomePage = currentPath === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +32,9 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
   }, [isHomePage])
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About Us' },
-    { id: 'listings', label: 'Properties' },
-    { id: 'contact', label: 'Contact' }
+    { path: '/', label: 'Home', id: 'home' },
+    { path: '/about', label: 'About Us', id: 'about' },
+    { path: '/listings', label: 'Properties', id: 'listings' }
   ]
 
   return (
@@ -48,34 +46,33 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
       }`}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <button 
-          onClick={() => setCurrentPage('home')} 
+        <Link 
+          to="/" 
           className="text-2xl font-black tracking-tight text-white flex items-center"
         >
-          {/* <span className="text-brand-yellow">BLAZE HORIZON REALTY LIMITED </span> */}
-          <img className='w-[8rem] h-[3.5rem] rounded-xl' src={Logo} alt="/image" />
-        </button>
+          <img className='w-[8rem] h-[3.5rem] rounded-xl' src={Logo} alt="logo" />
+        </Link>
 
         <div className="hidden md:flex items-center space-x-10">
           {navItems.map(item => (
-            <button
+            <Link
               key={item.id}
-              onClick={() => setCurrentPage(item.id)}
+              to={item.path}
               className={`text-gray-300 hover:text-brand-yellow transition-all text-xs font-black uppercase tracking-widest pb-1 ${
-                currentPage === item.id ? 'text-brand-yellow border-b-2 border-brand-yellow' : ''
+                currentPath === item.path ? 'text-brand-yellow border-b-2 border-brand-yellow' : ''
               }`}
             >
               {item.label}
-            </button>
+            </Link>
           ))}
         </div>
-
-        <button 
-          onClick={() => setCurrentPage('contact')}
-          className={`hidden md:block bg-[#fa8e12] text-gray-900 font-black py-2.5 px-6 rounded-md text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700 `}
+        
+        <Link           
+          to="/contact"
+          className={`hidden md:block bg-[#fa8e12] text-gray-900 font-black py-2.5 px-6 rounded-md text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700`}
         >
-          Book a Tour
-        </button>
+          Contact
+        </Link>      
       </div>
     </nav>
   )

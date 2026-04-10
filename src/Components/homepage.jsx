@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link as ScrollLink } from 'react-scroll'
+import { useNavigate } from 'react-router-dom'
 import PropertyCard from './PropertyCard'
+import { properties } from '../data/property'
 
-import build4 from './Images/img4.jpeg'
-import build2 from './Images/img2.jpeg'
-import build3 from './Images/img3.jpeg'
 
-const HomePage = ({ setCurrentPage }) => {
+
+const HomePage = () => {
+  const navigate = useNavigate()
+  
   // State for FAQ accordion
   const [openFaq, setOpenFaq] = useState(null)
 
@@ -15,65 +17,7 @@ const HomePage = ({ setCurrentPage }) => {
   }
 
   // Featured properties - WITH IDs and proper fields
-const featuredProperties = [
-  {
-    id: 1,
-    title: 'The Monarch Suite',
-    location: 'Banana Island, Lagos',
-    fullAddress: '123 Banana Island Way, Ikoyi, Lagos',
-    state: 'Lagos',
-    country: 'Nigeria',
-    image: build3,
-    images: [build3, build2, build4],
-    type: 'buy',
-    beds: 4,
-    baths: 3,
-    sqft: '2,400',
-    yearBuilt: '2022',
-    parking: '2 spaces',
-    description: 'Experience luxury living at its finest in The Monarch Suite. This stunning 4-bedroom apartment features premium finishes and breathtaking views.',
-    amenities: ['Swimming Pool', 'Gym', '24/7 Security', 'Parking', 'Elevator'],
-    nearby: ['Banana Island Club (5 min)', 'Lekki Conservation Centre (10 min)']
-  },
-  {
-    id: 2,
-    title: 'Sapphire Heights',
-    location: 'Lekki Phase 1, Lagos',
-    fullAddress: '45 Admiralty Way, Lekki Phase 1, Lagos',
-    state: 'Lagos',
-    country: 'Nigeria',
-    image: build2,
-    images: [build2, build3, build4],
-    type: 'buy',
-    beds: 6,
-    baths: 5,
-    sqft: '4,800',
-    yearBuilt: '2023',
-    parking: '3 spaces',
-    description: 'Sapphire Heights is a masterpiece of modern architecture with smart home features and luxurious interiors.',
-    amenities: ['Private Cinema', 'Wine Cellar', 'Gym', 'Pool'],
-    nearby: ['Novare Mall (3 min)', 'Lagos Business School (8 min)']
-  },
-  {
-    id: 3,
-    title: 'Ocean View Villa',
-    location: 'Victoria Island, Lagos',
-    fullAddress: '78 Ahmadu Bello Way, Victoria Island, Lagos',
-    state: 'Lagos',
-    country: 'Nigeria',
-    image: build4,
-    images: [build4, build3, build2],
-    type: 'rent',
-    beds: 5,
-    baths: 4,
-    sqft: '3,500',
-    yearBuilt: '2021',
-    parking: '2 spaces',
-    description: 'Wake up to stunning ocean views every morning in this beautiful beachfront villa.',
-    amenities: ['Beach Access', 'Infinity Pool', 'Private Gym'],
-    nearby: ['Landmark Beach (2 min)', 'Eko Atlantic (7 min)']
-  }
-]
+  const featuredProperties = properties.slice(0, 3)
 
   // Testimonials
   const testimonials = [
@@ -203,7 +147,7 @@ const featuredProperties = [
               Our Story
             </ScrollLink>
             <button 
-              onClick={() => setCurrentPage('listings')}
+              onClick={() => navigate('/listings')}
               className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-10 py-5 rounded-lg font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
             >
               Explore Collections
@@ -220,7 +164,7 @@ const featuredProperties = [
             <h2 className="text-4xl font-black mb-6">Redefining Real Estate <br/> Across Borders</h2>
             <p className="text-gray-300 leading-relaxed mb-8 max-w-lg">Blaze Horizon is a leading investment partner, helping individuals and corporations secure high-value land and residential assets with absolute transparency.</p>
             <button 
-              onClick={() => setCurrentPage('about')}
+              onClick={() => navigate('/about')}
               className="bg-[#fa8e12] text-[#03302b] hover:scale-105 transition-all duration-700 px-8 py-4 rounded-xl text-xs font-black uppercase tracking-widest"
             >
               Learn More About Us
@@ -287,7 +231,7 @@ const featuredProperties = [
               <h2 className="text-4xl font-black text-[#03302b]">Featured Properties</h2>
             </div>
             <button 
-              onClick={() => setCurrentPage('listings')}
+              onClick={() => navigate('/listings')}
               className="bg-[#fa8e12] text-[#03302b] tracking-wider font-black py-2.5 px-6 rounded-md text-xs uppercase hover:scale-105 transition-all duration-300"
             >
               Browse All
@@ -297,9 +241,9 @@ const featuredProperties = [
           <div className="flex overflow-x-auto gap-6 pb-10 custom-scrollbar -mx-6 px-6">
             {featuredProperties.map((property) => (
               <PropertyCard 
-                key={property.id} 
+                key={property.slug}
                 {...property} 
-                onMoreInfo={() => setCurrentPage('property-details', property)}
+                onMoreInfo={() => navigate(`/property/${property.slug}`)}
               />
             ))}
           </div>
@@ -370,10 +314,10 @@ const featuredProperties = [
           </div>
 
           {/* Still have questions? */}
-          <div className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
+          <div id="faq-section" className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
             <p className="text-[#03302b]/70 mb-4">Still have questions?</p>
             <button 
-              onClick={() => setCurrentPage('contact')}
+              onClick={() => navigate('/contact')}
               className="bg-[#fa8e12] text-[#03302b] font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
             >
               Contact Us
