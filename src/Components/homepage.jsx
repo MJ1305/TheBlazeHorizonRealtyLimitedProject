@@ -14,46 +14,73 @@ const HomePage = ({ setCurrentPage }) => {
     setOpenFaq(openFaq === index ? null : index)
   }
 
-  // Featured properties
-  const featuredProperties = [
-    {
-      title: 'The Monarch Suite',
-      price: '$450k',
-      beds: 4,
-      baths: 3,
-      sqft: '2,400',
-      image: build3,
-      badge: 'Featured',
-      badgeColor: 'bg-[#03302b] text-white'
-    },
-    {
-      title: 'Sapphire Heights',
-      price: '$1.2M',
-      beds: 6,
-      baths: 5,
-      sqft: '4,800',
-      image: build3,
-      badge: 'New',
-      badgeColor: 'bg-brand-yellow text-[#03302b]'
-    },
-    {
-      title: 'Sapphire Heights',
-      price: '$1.2M',
-      beds: 6,
-      baths: 5,
-      sqft: '4,800',
-      image: build3,
-      badge: 'New',
-      badgeColor: 'bg-brand-yellow text-[#03302b]'
-    }
-  ]
+  // Featured properties - WITH IDs and proper fields
+const featuredProperties = [
+  {
+    id: 1,
+    title: 'The Monarch Suite',
+    location: 'Banana Island, Lagos',
+    fullAddress: '123 Banana Island Way, Ikoyi, Lagos',
+    state: 'Lagos',
+    country: 'Nigeria',
+    image: build3,
+    images: [build3, build2, build4],
+    type: 'buy',
+    beds: 4,
+    baths: 3,
+    sqft: '2,400',
+    yearBuilt: '2022',
+    parking: '2 spaces',
+    description: 'Experience luxury living at its finest in The Monarch Suite. This stunning 4-bedroom apartment features premium finishes and breathtaking views.',
+    amenities: ['Swimming Pool', 'Gym', '24/7 Security', 'Parking', 'Elevator'],
+    nearby: ['Banana Island Club (5 min)', 'Lekki Conservation Centre (10 min)']
+  },
+  {
+    id: 2,
+    title: 'Sapphire Heights',
+    location: 'Lekki Phase 1, Lagos',
+    fullAddress: '45 Admiralty Way, Lekki Phase 1, Lagos',
+    state: 'Lagos',
+    country: 'Nigeria',
+    image: build2,
+    images: [build2, build3, build4],
+    type: 'buy',
+    beds: 6,
+    baths: 5,
+    sqft: '4,800',
+    yearBuilt: '2023',
+    parking: '3 spaces',
+    description: 'Sapphire Heights is a masterpiece of modern architecture with smart home features and luxurious interiors.',
+    amenities: ['Private Cinema', 'Wine Cellar', 'Gym', 'Pool'],
+    nearby: ['Novare Mall (3 min)', 'Lagos Business School (8 min)']
+  },
+  {
+    id: 3,
+    title: 'Ocean View Villa',
+    location: 'Victoria Island, Lagos',
+    fullAddress: '78 Ahmadu Bello Way, Victoria Island, Lagos',
+    state: 'Lagos',
+    country: 'Nigeria',
+    image: build4,
+    images: [build4, build3, build2],
+    type: 'rent',
+    beds: 5,
+    baths: 4,
+    sqft: '3,500',
+    yearBuilt: '2021',
+    parking: '2 spaces',
+    description: 'Wake up to stunning ocean views every morning in this beautiful beachfront villa.',
+    amenities: ['Beach Access', 'Infinity Pool', 'Private Gym'],
+    nearby: ['Landmark Beach (2 min)', 'Eko Atlantic (7 min)']
+  }
+]
 
   // Testimonials
   const testimonials = [
     {
       name: 'John Doe',
       rating: 5,
-      text: '"Kingdom Firm made our home buying experience incredibly smooth. Their professionalism and transparency are unmatched."',
+      text: '"Blaze Horizon made our home buying experience incredibly smooth. Their professionalism and transparency are unmatched."',
       bgColor: 'bg-white',
       textColor: 'text-[#03302b]',
       avatar: 'https://i.pravatar.cc/100?u=1'
@@ -61,7 +88,7 @@ const HomePage = ({ setCurrentPage }) => {
     {
       name: 'Sarah Smith',
       rating: 5,
-      text: '"As an investor, I value speed and accuracy. The team at Kingdom Firm provides both consistently."',
+      text: '"As an investor, I value speed and accuracy. The team at Blaze Horizon provides both consistently."',
       bgColor: 'bg-[#03302b]',
       textColor: 'text-gray-300',
       avatar: 'https://i.pravatar.cc/100?u=2'
@@ -87,7 +114,7 @@ const HomePage = ({ setCurrentPage }) => {
       title: 'Best Locations',
       description: 'Prime properties in premium neighborhoods',
       icon: '📍',
-      color: 'bg-[#03302b]/5'
+      color: 'bg-[#fa8e12]/10'
     },
     {
       title: 'Transparent Process',
@@ -115,7 +142,7 @@ const HomePage = ({ setCurrentPage }) => {
     }
   ]
 
-  // FAQ Data - NO IDs needed!
+  // FAQ Data
   const faqs = [
     {
       question: 'What types of properties do you offer?',
@@ -221,8 +248,8 @@ const HomePage = ({ setCurrentPage }) => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[50px] font-black tracking-[0.3em] uppercase mb-4 block">Why Choose Us?</span>
-            <h2 className="text-3xl md:text-1xl font-black text-[#03302b] mb-4">
-              The <span className="text-brand-yellow">Kingdom</span> Advantage
+            <h2 className="text-2xl md:text-1xl font-black text-[#03302b] mb-4">
+              Blaze <span className="text-[#fa8e12]">Horizon</span> Advantages
             </h2>
             <p className="text-[#03302b]/70 max-w-2xl mx-auto">
               We secure suitable homes and profitable investment deals tailored to your income level,
@@ -234,13 +261,17 @@ const HomePage = ({ setCurrentPage }) => {
             {whyChooseUs.map((item, index) => (
               <div 
                 key={index}
-                className="group bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                className="group bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
               >
-                <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <span className="text-3xl">{item.icon}</span>
+                <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#fa8e12] group-hover:scale-110`}>
+                  <span className="text-3xl transition-all duration-300 group-hover:scale-110">{item.icon}</span>
                 </div>
-                <h3 className="text-xl font-black text-[#03302b] mb-3">{item.title}</h3>
-                <p className="text-[#03302b]/60 leading-relaxed">{item.description}</p>
+                <h3 className="text-xl font-black text-[#03302b] mb-3 transition-all duration-300 group-hover:text-[#fa8e12] group-hover:underline group-hover:underline-offset-4">
+                  {item.title}
+                </h3>
+                <p className="text-[#03302b]/60 leading-relaxed transition-all duration-300 group-hover:text-[#03302b]/80">
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
@@ -248,36 +279,62 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* Featured Properties */}
-      <section className="py-24 px-6 bg-gray-50 overflow-hidden">
+      <section className="py-24 px-6 bg-gray-100 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
-              <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">New Arrivals</span>
+              <span className="text-brand-yellow text-[15px] text-[#fa8e12] font-black tracking-[0.3em] uppercase mb-4 block">New Arrivals</span>
               <h2 className="text-4xl font-black text-[#03302b]">Featured Properties</h2>
             </div>
             <button 
               onClick={() => setCurrentPage('listings')}
-              className="bg-brand-yellow text-[#03302b] font-black py-2.5 px-6 rounded-md text-xs uppercase hover:scale-105 transition-all duration-300"
+              className="bg-[#fa8e12] text-[#03302b] tracking-wider font-black py-2.5 px-6 rounded-md text-xs uppercase hover:scale-105 transition-all duration-300"
             >
               Browse All
             </button>
           </div>
 
           <div className="flex overflow-x-auto gap-6 pb-10 custom-scrollbar -mx-6 px-6">
-            {featuredProperties.map((property, index) => (
-              <PropertyCard key={index} {...property} />
+            {featuredProperties.map((property) => (
+              <PropertyCard 
+                key={property.id} 
+                {...property} 
+                onMoreInfo={() => setCurrentPage('property-details', property)}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQs Section - NEW! */}
+      {/* Customer Reviews */}
+      <section className="py-24 px-6 bg-[#fa8e12]">
+        <div className="max-w-7xl mx-auto text-center mb-16">
+          <span className="text-brand-yellow text-[15px] font-black text-[#fa8e12] tracking-[0.3em] uppercase mb-4 block">Testimonials</span>
+          <h2 className="text-4xl font-black text-[#03302b]">What Our Clients Say</h2>
+        </div>
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className={`${testimonial.bgColor} p-10 rounded-3xl border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}>
+              <div className="text-[#fa8e12] mb-4">★★★★★</div>
+              <p className={`${testimonial.textColor} italic mb-6`}>{testimonial.text}</p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
+                  <img src={testimonial.avatar} alt={testimonial.name} />
+                </div>
+                <span className="font-bold text-xs uppercase bg-[#fa8e12] px-3 py-1 rounded-md text-white tracking-widest">{testimonial.name}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>      
+
+      {/* FAQs Section */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Got Questions?</span>
             <h2 className="text-4xl md:text-5xl font-black text-[#03302b] mb-4">
-              Frequently Asked <span className="text-brand-yellow">Questions</span>
+              Frequently Asked <span className="text-[#fa8e12]">Questions</span>
             </h2>
             <p className="text-[#03302b]/60 max-w-2xl mx-auto">
               Find answers to common questions about our properties, process, and services
@@ -295,7 +352,7 @@ const HomePage = ({ setCurrentPage }) => {
                   className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-300"
                 >
                   <span className="font-black text-[#03302b] text-lg pr-4">{faq.question}</span>
-                  <span className="text-brand-yellow text-2xl flex-shrink-0">
+                  <span className="text-[#fa8e12] text-2xl flex-shrink-0">
                     {openFaq === index ? '−' : '+'}
                   </span>
                 </button>
@@ -317,7 +374,7 @@ const HomePage = ({ setCurrentPage }) => {
             <p className="text-[#03302b]/70 mb-4">Still have questions?</p>
             <button 
               onClick={() => setCurrentPage('contact')}
-              className="bg-brand-yellow text-[#03302b] font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+              className="bg-[#fa8e12] text-[#03302b] font-black py-3 px-8 rounded-lg text-xs uppercase tracking-widest hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
             >
               Contact Us
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -325,28 +382,6 @@ const HomePage = ({ setCurrentPage }) => {
               </svg>
             </button>
           </div>
-        </div>
-      </section>
-
-      {/* Customer Reviews */}
-      <section className="py-24 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto text-center mb-16">
-          <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Testimonials</span>
-          <h2 className="text-4xl font-black text-[#03302b]">What Our Clients Say</h2>
-        </div>
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className={`${testimonial.bgColor} p-10 rounded-3xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}>
-              <div className="text-brand-yellow mb-4">★★★★★</div>
-              <p className={`${testimonial.textColor} italic mb-6`}>{testimonial.text}</p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
-                  <img src={testimonial.avatar} alt={testimonial.name} />
-                </div>
-                <span className="font-bold text-xs uppercase tracking-widest text-[#03302b]">{testimonial.name}</span>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
     </div>

@@ -20,7 +20,7 @@ const PropertyCard = ({
         />
         <div className={`absolute top-6 left-6 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${
           type === 'buy' 
-            ? 'bg-brand-yellow text-gray-900' 
+            ? 'bg-[#fa8e12] text-gray-900' 
             : 'bg-gray-900 text-white'
         }`}>
           {type === 'buy' ? 'For Sale' : 'For Rent'}
@@ -42,7 +42,7 @@ const PropertyCard = ({
         {/* More Info Button */}
         <button 
           onClick={onMoreInfo}
-          className="w-full bg-[#03302b] text-white py-3 rounded-full flex items-center justify-center gap-2 hover:bg-brand-yellow hover:text-[#03302b] transition-all duration-300 group mt-auto"
+          className="w-full bg-[#2b4b47] text-white py-3 rounded-full flex items-center justify-center gap-2 hover:bg-brand-yellow hover:text-[#03302b] transition-all duration-300 group mt-auto"
         >
           <span className="text-xs font-black uppercase tracking-widest">More Info</span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

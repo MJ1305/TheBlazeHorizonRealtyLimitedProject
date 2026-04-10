@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropertyCard from './propertyCard'
+import PropertyCard from './PropertyCard'
 
 //Images
 import build1 from './Images/img1.jpeg'

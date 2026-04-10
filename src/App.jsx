@@ -18,44 +18,73 @@ function App() {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'instant' // Use 'smooth' if you want animated scrolling
+      behavior: 'instant'
     })
   }, [currentPage])
+
+  // This function handles navigation with property data
+  const handleNavigation = (page, property = null) => {
+    if (property) {
+      setSelectedProperty(property)
+      setCurrentPage('property-details')
+    } else {
+      setSelectedProperty(null)
+      setCurrentPage(page)
+    }
+  }
 
   const renderPage = () => {
     switch(currentPage) {
       case 'home':
-        return <HomePage setCurrentPage={setCurrentPage} />
+        return (
+          <HomePage 
+            setCurrentPage={handleNavigation}
+          />
+        )
       case 'listings':
-        return <Listing setCurrentPage={setCurrentPage} setSelectedProperty={setSelectedProperty} />
+        return (
+          <Listing 
+            setCurrentPage={handleNavigation}
+            setSelectedProperty={setSelectedProperty} 
+          />
+        )
       case 'about':
-        return <AboutPage />
+        return <AboutPage setCurrentPage={handleNavigation} />
       case 'contact':
-        return <ContactPage />
+        return <ContactPage setCurrentPage={handleNavigation} />
       case 'property-details':
-        return <PropertyDetails 
-          property={selectedProperty}
-          setCurrentPage={setCurrentPage}
-          setSelectedProperty={setSelectedProperty}
-        />
+        return (
+          <PropertyDetails 
+            property={selectedProperty}
+            setCurrentPage={handleNavigation}
+            setSelectedProperty={setSelectedProperty}
+          />
+        )
       case 'book-tour':
-        return <BookTour 
-          setCurrentPage={setCurrentPage}
-          selectedProperty={selectedProperty}
-        />
+        return (
+          <BookTour 
+            setCurrentPage={handleNavigation}
+            selectedProperty={selectedProperty}
+          />
+        )
       default:
-        return <HomePage setCurrentPage={setCurrentPage} />
+        return (
+          <HomePage 
+            setCurrentPage={handleNavigation}
+          />
+        )
     }
   }
 
   return (
     <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-      <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Navigation currentPage={currentPage} setCurrentPage={handleNavigation} />
+      
       <main className="flex-grow">
         {renderPage()}
       </main>
-      <Footer setCurrentPage={setCurrentPage} />
-
+      
+      <Footer setCurrentPage={handleNavigation} />
       <BackToTop />
     </div>
   )
