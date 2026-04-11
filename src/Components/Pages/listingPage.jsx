@@ -88,7 +88,7 @@ const Listing = () => {
   };
 
   return (
-    <div className="pt-24">
+    <div className="responsive-listing pt-24">
       <header className="bg-[#03302b] pt-32 pb-24 px-6 text-center">
         <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">
           Available Assets
@@ -179,8 +179,7 @@ const Listing = () => {
         {/*COMPARE BAR */}
         {compareList.length > 0 && (
           <div className="mb-6 p-4 bg-gray-100 rounded-xl flex justify-between items-center">
-            <p className="font-bold ">Compare ({compareList.length}/3)</p>
-
+            <p className="font-bold">Compare ({compareList.length}/3)</p>
             <button
               onClick={() => navigate("/compare", { state: compareList })}
               className="bg-[#fa8e12] text-white px-4 py-2 rounded-lg font-bold"
@@ -271,7 +270,7 @@ const Listing = () => {
             </div>
 
             {/* PAGINATION */}
-            <div className="flex justify-center gap-2 mt-12">
+            <div className="flex justify-center gap-2 mt-12 flex-wrap">
               {Array.from({ length: totalPages }).map((_, index) => (
                 <button
                   key={index}
@@ -289,6 +288,86 @@ const Listing = () => {
           </>
         )}
       </section>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-listing {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-listing header {
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+          }
+          
+          .responsive-listing header h1 {
+            font-size: 2rem;
+          }
+          
+          .responsive-listing .flex.flex-col.md\\:flex-row {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          
+          .responsive-listing input,
+          .responsive-listing select {
+            width: 100%;
+            font-size: 16px;
+          }
+          
+          .responsive-listing .grid {
+            gap: 1.5rem;
+          }
+          
+          .responsive-listing .flex.justify-center.gap-2 {
+            gap: 0.5rem;
+          }
+          
+          .responsive-listing .flex.justify-center.gap-2 button {
+            padding: 0.5rem 0.75rem;
+          }
+          
+          .compare-bar {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-listing {
+            width: 100%;
+          }
+          
+          .responsive-listing .flex.flex-col.md\\:flex-row {
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+          
+          .responsive-listing input {
+            width: 100%;
+          }
+          
+          .responsive-listing select {
+            flex: 1;
+            min-width: 120px;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-listing {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-listing {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const PropertyCard = ({
   onMoreInfo 
 }) => {
   return (
-    <div className="group bg-grey-200 rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+    <div className="responsive-property-card group bg-grey-200 rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
       <div className="h-72 overflow-hidden relative">
         <img 
           src={image} 
@@ -50,6 +50,60 @@ const PropertyCard = ({
           </svg>
         </button>
       </div>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-property-card {
+            width: 100%;
+            min-width: 280px;
+          }
+          
+          .responsive-property-card .h-72 {
+            height: 14rem;
+          }
+          
+          .responsive-property-card .p-8 {
+            padding: 1.5rem;
+          }
+          
+          .responsive-property-card h4 {
+            font-size: 1.25rem;
+          }
+          
+          .responsive-property-card .flex.gap-4 {
+            gap: 0.75rem;
+            flex-wrap: wrap;
+          }
+          
+          .responsive-property-card button {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-property-card {
+            width: 100%;
+          }
+          
+          .responsive-property-card .h-72 {
+            height: 15rem;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-property-card {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-property-card {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }

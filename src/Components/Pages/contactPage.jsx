@@ -126,9 +126,9 @@ const ContactPage = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 flex items-center ">
-      <section className="py-16 px-6 bg-white w-full ">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center ">
+    <div className="responsive-contact min-h-screen pt-24 flex items-center">
+      <section className="py-16 px-6 bg-white w-full">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           
           {/* Left Side - Contact Info */}
           <div>
@@ -304,6 +304,39 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-contact {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-contact section {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-contact {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-contact {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-contact {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }

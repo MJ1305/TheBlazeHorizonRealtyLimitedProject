@@ -3,7 +3,6 @@ import React from 'react'
 //Images
 import build3 from '../Images/img7.jpeg'
 
-
 const AboutPage = () => {
   // Core values
   const values = [
@@ -50,9 +49,9 @@ const AboutPage = () => {
   ]
 
   return (
-    <div className="pt-24">
+    <div className="responsive-about pt-24">
       {/* Hero */}
-      <section className="h-screen py-24 px-6 bg-Background03 bg-no-repeat bg-cover text-white flex  flex-col items-center justify-center text-center">
+      <section className="h-screen py-24 px-6 bg-Background03 bg-no-repeat bg-cover text-white flex flex-col items-center justify-center text-center">
         <span className="text-brand-yellow text-[25px] border rounded-lg w-[20rem] font-black tracking-[0.4em] text-[#fa8e12] uppercase mb-4 block">Since 2014</span>
         <h2 className="text-6xl md:text-7xl font-black mb-8 leading-tight">
           Elevating Global <br/> <span className="text-brand-yellow">Real Estate Standards</span>
@@ -93,21 +92,6 @@ const AboutPage = () => {
               </div>
             ))}
           </div>
-
-          {/* Website Link - Commented out */}
-          {/* <div className="text-center mt-12">
-            <a 
-              href="https://www.kingdomfirmpropertiesng.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-brand-yellow hover:text-[#03302b] transition-colors text-sm font-black uppercase tracking-widest"
-            >
-              www.kingdomfirmpropertiesng.com
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          </div> */}
         </div>
       </section>
 
@@ -143,7 +127,7 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Core Values</span>
-            <h2 className="text-6xl font-black text-[#03302b]">The Horizon <span className='text-[#fa8e12]'>Code</span> </h2>
+            <h2 className="text-6xl font-black text-[#03302b]">The Horizon <span className='text-[#fa8e12]'>Code</span></h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
@@ -158,6 +142,55 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-about {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-about h2 {
+            font-size: 2.5rem !important;
+          }
+          
+          .responsive-about .grid {
+            gap: 1.5rem;
+          }
+          
+          .responsive-about section {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+          }
+          
+          .responsive-about .space-y-12 {
+            text-align: center;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-about {
+            width: 100%;
+          }
+          
+          .responsive-about h2 {
+            font-size: 3rem !important;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-about {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-about {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }

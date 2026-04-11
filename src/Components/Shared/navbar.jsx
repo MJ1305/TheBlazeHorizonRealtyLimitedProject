@@ -39,7 +39,7 @@ const Navigation = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 py-5 px-6 md:px-12 lg:px-24 transition-all duration-300 ${
+      className={`responsive-nav fixed top-0 left-0 right-0 z-50 py-5 px-6 md:px-12 lg:px-24 transition-all duration-300 ${
         isScrolled 
           ? 'bg-[#03302b] border-white/5' 
           : 'bg-transparent'
@@ -74,6 +74,40 @@ const Navigation = () => {
           Contact
         </Link>      
       </div>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-nav {
+            width: 100%;
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          
+          .responsive-nav img {
+            width: 6rem;
+            height: 2.75rem;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-nav {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-nav {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-nav {
+            width: 100%;
+          }
+        }
+      `}</style>
     </nav>
   )
 }

@@ -40,8 +40,7 @@ const PropertyDetails = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-
+    <div className="responsive-property-details min-h-screen pt-24 pb-16">
       {/* HERO */}
       <div className="relative h-[60vh] overflow-hidden">
         <img
@@ -52,7 +51,7 @@ const PropertyDetails = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
         {/* Thumbnail Gallery with Hover Effects */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 flex-wrap justify-center px-4">
           {property.images.map((img, idx) => (
             <button
               key={idx}
@@ -76,18 +75,15 @@ const PropertyDetails = () => {
       {/* DETAILS */}
       <div className="max-w-7xl mx-auto px-6 -mt-5 relative z-10">
         <div className="bg-white rounded-3xl shadow-2xl p-8">
-
           {/* HEADER */}
           <div className="flex justify-between flex-wrap gap-4 mb-8">
             <div>
               <div className="px-4 py-1 bg-brand-yellow text-xs font-black inline-block rounded-full mb-3">
                 {property.type === 'buy' ? 'FOR SALE' : 'FOR RENT'}
               </div>
-
               <h1 className="text-4xl font-black text-[#03302b]">
                 {property.title}
               </h1>
-
               <p className="text-gray-500 mt-2">
                 {property.fullAddress}
               </p>
@@ -137,30 +133,106 @@ const PropertyDetails = () => {
             </div>
           )}
 
-         <div className='flex border border-[red] justify-between text-center'>
-          {/* BACK BUTTON */}
-          <div className="my-4 flex justify-center">
-            <button
-              onClick={() => navigate('/listings')}
-              className="px-6 py-3 bg-gray-900 text-white rounded-xl font-black uppercase tracking-widest text-xs hover:bg-[#03302b] transition-all duration-300"
-            >
-              ← Back to All Properties
-            </button>
+          <div className='flex border border-[red] justify-between text-center flex-wrap'>
+            {/* BACK BUTTON */}
+            <div className="my-4 flex justify-center">
+              <button
+                onClick={() => navigate('/listings')}
+                className="px-6 py-3 bg-gray-900 text-white rounded-xl font-black uppercase tracking-widest text-xs hover:bg-[#03302b] transition-all duration-300"
+              >
+                ← Back to All Properties
+              </button>
+            </div>
+            
+            {/* BOOK TOUR BUTTON */}
+            <div className="my-4 flex justify-center">
+              <button
+                onClick={handleBookTour}
+                className="bg-[#fa8e12] text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-all duration-300"
+              >
+                Schedule a Tour
+              </button>
+            </div>          
           </div>
-          
-           {/* BOOK TOUR BUTTON */}
-          <div className="my-4 flex justify-center">
-            <button
-              onClick={handleBookTour}
-              className="bg-[#fa8e12] text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-all duration-300"
-            >
-              Schedule a Tour
-            </button>
-          </div>          
-         </div>
-
         </div>
       </div>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-property-details {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-property-details .h-\\[60vh\\] {
+            height: 40vh;
+          }
+          
+          .responsive-property-details .w-20 {
+            width: 3rem;
+            height: 3rem;
+          }
+          
+          .responsive-property-details .absolute.bottom-6 {
+            bottom: 1rem;
+          }
+          
+          .responsive-property-details .gap-3 {
+            gap: 0.5rem;
+          }
+          
+          .responsive-property-details .p-8 {
+            padding: 1.5rem;
+          }
+          
+          .responsive-property-details h1 {
+            font-size: 1.75rem;
+          }
+          
+          .responsive-property-details .grid.grid-cols-2.md\\:grid-cols-4 {
+            gap: 1rem;
+          }
+          
+          .responsive-property-details .flex.border.border-\\[red\\] {
+            flex-direction: column;
+          }
+          
+          .responsive-property-details .my-4 {
+            width: 100%;
+          }
+          
+          .responsive-property-details .my-4 button {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-property-details {
+            width: 100%;
+          }
+          
+          .responsive-property-details .h-\\[60vh\\] {
+            height: 50vh;
+          }
+          
+          .responsive-property-details .flex.border.border-\\[red\\] {
+            flex-direction: row;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-property-details {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-property-details {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }

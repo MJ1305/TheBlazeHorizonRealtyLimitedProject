@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import PropertyCard from '../Shared/propertyCard'
 import { properties } from '../../data/property'
 
-
-
 const HomePage = () => {
   const navigate = useNavigate()
   
@@ -115,7 +113,7 @@ const HomePage = () => {
   ]
 
   return (
-    <div>
+    <div className="responsive-container">
       {/* Hero Section */}
       <header className="relative h-screen flex items-center justify-center text-center px-6 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -273,7 +271,7 @@ const HomePage = () => {
       </section>      
 
       {/* FAQs Section */}
-      <section  id="faq-section" className="py-24 px-6 bg-white">
+      <section id="faq-section" className="py-24 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Got Questions?</span>
@@ -328,6 +326,39 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-container {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .custom-scrollbar {
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-container {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-container {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-container {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }

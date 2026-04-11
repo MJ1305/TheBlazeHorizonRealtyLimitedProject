@@ -46,7 +46,7 @@ const BackToTop = () => {
   }
 
   return (
-    <>
+    <div className="responsive-backtotop">
       {isVisible && (
         <button
           onClick={() => smoothScrollToTop(1500)} // 1500ms = 1.5 seconds (slower)
@@ -69,7 +69,43 @@ const BackToTop = () => {
           </svg>
         </button>
       )}
-    </>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-backtotop button {
+            bottom: 1rem;
+            right: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+          }
+          
+          .responsive-backtotop svg {
+            width: 1.25rem;
+            height: 1.25rem;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-backtotop button {
+            bottom: 1.25rem;
+            right: 1.25rem;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-backtotop {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-backtotop {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </div>
   )
 }
 

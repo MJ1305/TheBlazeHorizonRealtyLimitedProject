@@ -18,7 +18,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-[#03302b] text-gray-500 py-16 px-6">
+    <footer className="responsive-footer bg-[#03302b] text-gray-500 py-16 px-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
         <div className="col-span-1 md:col-span-2">
           <Link to="/" className="inline-block">
@@ -58,6 +58,76 @@ const Footer = () => {
           © 2024 BlazeHorizon Realty. All Rights Reserved.
         </p>
       </div>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-footer {
+            width: 100%;
+            overflow-x: hidden;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+          }
+          
+          .responsive-footer .grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+          
+          .responsive-footer .col-span-1.md\\:col-span-2 {
+            text-align: center;
+          }
+          
+          .responsive-footer .max-w-sm {
+            margin-left: auto;
+            margin-right: auto;
+          }
+          
+          .responsive-footer img {
+            width: 6rem;
+            height: 2.75rem;
+          }
+          
+          .responsive-footer h5 {
+            text-align: center;
+          }
+          
+          .responsive-footer ul {
+            text-align: center;
+          }
+          
+          .responsive-footer .border-t {
+            margin-top: 1rem;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-footer {
+            width: 100%;
+          }
+          
+          .responsive-footer .grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+          }
+          
+          .responsive-footer .col-span-1.md\\:col-span-2 {
+            grid-column: span 2;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-footer {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-footer {
+            width: 100%;
+          }
+        }
+      `}</style>
     </footer>
   )
 }

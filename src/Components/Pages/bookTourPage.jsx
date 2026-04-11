@@ -166,19 +166,15 @@ const BookTour = () => {
   const maxDateStr = maxDate.toISOString().split('T')[0]
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-6 bg-gray-50">
-
+    <div className="responsive-tour min-h-screen pt-24 pb-16 px-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-
         <div className="text-center mb-12">
           <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">
             Schedule a Visit
           </span>
-
           <h1 className="text-4xl md:text-5xl font-black text-[#03302b] mb-4">
             Book a Property Tour
           </h1>
-
           <p className="text-gray-600 max-w-2xl mx-auto">
             Fill out the form below to schedule a private tour.
           </p>
@@ -186,34 +182,28 @@ const BookTour = () => {
 
         {selectedProperty && (
           <div className="mb-8 bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-            <div className="flex items-center gap-4">
-
-              <div className="w-20 h-20 rounded-xl overflow-hidden">
+            <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+              <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
                 <img
                   src={selectedProperty.image}
                   className="w-full h-full object-cover"
-                  alt=""
+                  alt={selectedProperty.title}
                 />
               </div>
-
               <div className="flex-grow">
                 <h3 className="font-black text-lg text-[#03302b]">
                   Selected Property
                 </h3>
-
                 <p className="text-gray-800 font-bold">
                   {selectedProperty.title}
                 </p>
-
                 <p className="text-gray-500 text-sm">
                   {selectedProperty.location}
                 </p>
-
                 <p className="text-gray-400 text-xs mt-1">
                   {selectedProperty.fullAddress}
                 </p>
               </div>
-
               <button
                 onClick={() => {
                   if (window.history.length > 1) {
@@ -222,17 +212,15 @@ const BookTour = () => {
                     navigate('/')
                   }
                 }}
-                className="text-brand-yellow text-xs font-black uppercase tracking-widest hover:underline"
+                className="text-brand-yellow text-xs font-black uppercase tracking-widest hover:underline flex-shrink-0"
               >
                 Back
               </button>
-
             </div>
           </div>
         )}
 
         <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10">
-
           {formStatus.message && (
             <div className={`mb-6 p-4 rounded-xl ${
               formStatus.type === 'success'
@@ -244,9 +232,7 @@ const BookTour = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
             <div className="grid md:grid-cols-2 gap-6">
-
               <input
                 name="firstName"
                 placeholder="First Name"
@@ -254,7 +240,6 @@ const BookTour = () => {
                 onChange={handleChange}
                 className="w-full bg-gray-50 border rounded-xl py-3 px-5"
               />
-
               <input
                 name="lastName"
                 placeholder="Last Name"
@@ -262,11 +247,9 @@ const BookTour = () => {
                 onChange={handleChange}
                 className="w-full bg-gray-50 border rounded-xl py-3 px-5"
               />
-
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-
               <input
                 name="email"
                 placeholder="Email"
@@ -274,7 +257,6 @@ const BookTour = () => {
                 onChange={handleChange}
                 className="w-full bg-gray-50 border rounded-xl py-3 px-5"
               />
-
               <input
                 name="phone"
                 placeholder="Phone"
@@ -282,11 +264,9 @@ const BookTour = () => {
                 onChange={handleChange}
                 className="w-full bg-gray-50 border rounded-xl py-3 px-5"
               />
-
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-
               <input
                 type="date"
                 name="preferredDate"
@@ -296,7 +276,6 @@ const BookTour = () => {
                 max={maxDateStr}
                 className="w-full bg-gray-50 border rounded-xl py-3 px-5"
               />
-
               <select
                 name="preferredTime"
                 value={formData.preferredTime}
@@ -308,7 +287,6 @@ const BookTour = () => {
                   <option key={t}>{t}</option>
                 ))}
               </select>
-
             </div>
 
             <textarea
@@ -327,11 +305,52 @@ const BookTour = () => {
             >
               {isSubmitting ? 'Sending...' : 'Schedule Tour'}
             </button>
-
           </form>
         </div>
-
       </div>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-tour {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-tour h1 {
+            font-size: 1.75rem;
+            text-align: center;
+          }
+          
+          .responsive-tour .grid {
+            gap: 1rem;
+          }
+          
+          .responsive-tour input,
+          .responsive-tour select,
+          .responsive-tour textarea {
+            font-size: 16px;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-tour {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-tour {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-tour {
+            width: 100%;
+          }
+        }
+      `}</style>
     </div>
   )
 }
