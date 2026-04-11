@@ -1,0 +1,198 @@
+import React from 'react'
+
+//Images
+import build3 from '../Images/img7.jpeg'
+
+const AboutPage = () => {
+  // Core values
+  const values = [
+    {
+      number: '01',
+      title: 'Transparency',
+      description: 'No hidden fees, no ambiguous titles. We provide all legal documentation upfront for your peace of mind.',
+      bgColor: 'bg-brand-yellow'
+    },
+    {
+      number: '02',
+      title: 'Excellence',
+      description: 'From the materials used in our developments to the service in our office, we aim for nothing but the best.',
+      bgColor: 'bg-[#fa8e12] text-white'
+    },
+    {
+      number: '03',
+      title: 'Commitment',
+      description: 'We don\'t just sell and walk away. We partner with you through the entire lifecycle of your property asset.',
+      bgColor: 'bg-brand-yellow'
+    }
+  ]
+
+  // What We Do services 
+  const services = [
+    {
+      title: 'Land Development',
+      description: 'We transform raw land into premium residential and commercial spaces with modern infrastructure and strategic planning.',
+      icon: '🏗️',
+      bgColor: 'bg-white'
+    },
+    {
+      title: 'Property Management',
+      description: 'Full-service property management including tenant screening, maintenance, rent collection, and 24/7 support.',
+      icon: '🏢',
+      bgColor: 'bg-[#03302b] text-white'
+    },
+    {
+      title: 'Real Estate Investment',
+      description: 'Strategic investment opportunities with guaranteed returns. We help you build wealth through smart property investments.',
+      icon: '📈',
+      bgColor: 'bg-white'
+    }
+  ]
+
+  return (
+    <div className="responsive-about pt-24">
+      {/* Hero */}
+      <section className="h-screen py-24 px-6 bg-Background03 bg-no-repeat bg-cover text-white flex flex-col items-center justify-center text-center">
+        <span className="text-brand-yellow text-[25px] border rounded-lg w-[20rem] font-black tracking-[0.4em] text-[#fa8e12] uppercase mb-4 block">Since 2014</span>
+        <h2 className="text-6xl md:text-7xl font-black mb-8 leading-tight">
+          Elevating Global <br/> <span className="text-brand-yellow">Real Estate Standards</span>
+        </h2>
+        <p className="max-w-2xl mx-auto text-gray-300 leading-relaxed text-lg">
+          We didn't just build a real estate firm; we built a kingdom of trust where every investor is royalty. From luxury apartments to expansive commercial land, we handle your vision with royal care.
+        </p>
+      </section>
+
+      {/* What We Do Section - NEW! */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-brand-yellow text-[15px] text-[#fa8e12] font-black tracking-[0.4em] uppercase mb-4 block">Our Services</span>
+            <h2 className="text-6xl md:text-5xl font-black text-[#03302b] mb-4">What We Do</h2>
+            <p className="text-[#03302b]/70 max-w-2xl mx-auto">
+              We secure suitable homes and profitable investment deals tailored to your income level.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div 
+                key={index} 
+                className={`${service.bgColor} p-10 rounded-[2.5rem] shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group ${
+                  service.bgColor === 'bg-[#03302b] text-white' ? 'hover:bg-brand-yellow hover:text-[#03302b]' : 'hover:bg-brand-yellow/5'
+                }`}
+              >
+                <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {service.icon}
+                </div>
+                <h3 className={`text-2xl font-black mb-4 ${service.bgColor === 'bg-[#03302b] text-white' ? 'text-white group-hover:text-white' : 'text-[#03302b]'}`}>
+                  {service.title}
+                </h3>
+                <p className={`${service.bgColor === 'bg-[#03302b] text-white' ? 'text-gray-300 group-hover:text-white' : 'text-[#03302b]/60'} leading-relaxed`}>
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="py-24 px-6 bg-[#03302b]">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+          <div className="space-y-12">
+            <div>
+              <h3 className="text-3xl font-black text-[#fa8e12] mb-4">Our Mission</h3>
+              <p className="text-white/70 leading-relaxed">
+                To democratize high-value real estate investment by providing transparent, legal, and verified property assets to individuals and organizations globally.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-3xl font-black text-[#fa8e12] mb-4">Our Vision</h3>
+              <p className="text-white/70 leading-relaxed">
+                To be the most trusted name in premium property solutions across the African continent and beyond, recognized for integrity and architectural excellence.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-[3rem] overflow-hidden">
+            <img 
+              src={build3} 
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+              alt="Office building"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Core Values</span>
+            <h2 className="text-6xl font-black text-[#03302b]">The Horizon <span className='text-[#fa8e12]'>Code</span></h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="bg-white p-12 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <div className={`w-12 h-12 ${value.bgColor} rounded-xl mb-6 flex items-center justify-center font-black`}>
+                  {value.number}
+                </div>
+                <h4 className="text-xl font-black mb-4 text-[#03302b]">{value.title}</h4>
+                <p className="text-[#03302b]/60 text-sm leading-relaxed">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Responsive Styles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .responsive-about {
+            width: 100%;
+            overflow-x: hidden;
+          }
+          
+          .responsive-about h2 {
+            font-size: 2.5rem !important;
+          }
+          
+          .responsive-about .grid {
+            gap: 1.5rem;
+          }
+          
+          .responsive-about section {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+          }
+          
+          .responsive-about .space-y-12 {
+            text-align: center;
+          }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+          .responsive-about {
+            width: 100%;
+          }
+          
+          .responsive-about h2 {
+            font-size: 3rem !important;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .responsive-about {
+            width: 100%;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .responsive-about {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </div>
+  )
+}
+
+export default AboutPage
