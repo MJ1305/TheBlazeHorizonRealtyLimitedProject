@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link as ScrollLink } from 'react-scroll'
 import { useNavigate } from 'react-router-dom'
-import PropertyCard from './PropertyCard'
-import { properties } from '../data/property'
+import PropertyCard from '../Shared/propertyCard'
+import { properties } from '../../data/property'
 
 
 
@@ -273,7 +273,7 @@ const HomePage = () => {
       </section>      
 
       {/* FAQs Section */}
-      <section className="py-24 px-6 bg-white">
+      <section  id="faq-section" className="py-24 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[10px] font-black tracking-[0.3em] uppercase mb-4 block">Got Questions?</span>
@@ -314,7 +314,7 @@ const HomePage = () => {
           </div>
 
           {/* Still have questions? */}
-          <div id="faq-section" className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
+          <div className="text-center mt-12 p-8 bg-gray-50 rounded-2xl">
             <p className="text-[#03302b]/70 mb-4">Still have questions?</p>
             <button 
               onClick={() => navigate('/contact')}

@@ -50,14 +50,14 @@ const ContactPage = () => {
     
     //From .env file
     const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID
     const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     
     //Template parameters
     const templateParams = {
-      from_name: `${formData.firstName} ${formData.lastName}`,
-      from_email: formData.email,
-      title: formData.interest,
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      interest: formData.interest,
       message: formData.message,
       to_email: 'blazehorizonrealty@gmail.com'
     }

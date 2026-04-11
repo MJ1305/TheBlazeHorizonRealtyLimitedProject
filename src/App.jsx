@@ -1,17 +1,26 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Navigation from './Components/navbar'
-import Footer from './Components/footer'
-import BackToTop from './Components/backToTopicon'
 
-import HomePage from './Components/homepage'
-import Listing from './Components/listingPage'
-import AboutPage from './Components/aboutusPage'
-import ContactPage from './Components/contactPage'
-import PropertyDetails from './Components/propertyDetails'
-import BookTour from './Components/bookTour'
-import ScrollToTop from './Components/scrollToTop'
+//Shared
+import Navigation from './Components/Shared/navbar'
+import Footer from './Components/Shared/footer'
+
+//Functions
+import BackToTop from './Components/functions/backToTopicon'
+import ScrollToTop from './Components/functions/scrollToTop'
+//import BackButton from './Components/functions/backButton'
+
+//Pages
+import HomePage from './Components/Pages/homepage'
+import Listing from './Components/Pages/listingPage'
+import AboutPage from './Components/Pages/aboutusPage'
+import ContactPage from './Components/Pages/contactPage'
+import PropertyDetails from './Components/Pages/propertyDetails'
+import BookTour from './Components/Pages/bookTourPage'
+import NotFound from './Components/Pages/notFoundPage'
+import ComparePage from './Components/Pages/comparePropertiesPage'
+
 
 function App() {
   return (
@@ -32,12 +41,16 @@ function App() {
           <Route path="/property/:slug" element={<PropertyDetails />} />
 
           <Route path="/book-tour" element={<BookTour />} />
+          <Route path="/compare" element={<ComparePage />} />
+
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
       </main>
 
       <Footer />
       <BackToTop />
+      {/* <BackButton /> */}
     </div>
   )
 }

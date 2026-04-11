@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const BookTour = () => {
     
   const location = useLocation()
+  const navigate = useNavigate() 
   const selectedProperty = location.state?.property
 
  
@@ -87,12 +88,12 @@ const BookTour = () => {
     setIsSubmitting(true)
 
     const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TOUR_TEMPLATE_ID
     const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
     const templateParams = {
-      from_name: `${formData.firstName} ${formData.lastName}`,
-      from_email: formData.email,
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
       phone: formData.phone,
       property_name: formData.propertyName,
       property_location: formData.propertyLocation,
@@ -101,7 +102,7 @@ const BookTour = () => {
       preferred_time: formData.preferredTime,
       message: formData.message,
       to_email: 'blazehorizonrealty@gmail.com',
-      subject: `Tour Request: ${formData.propertyName}`
+      intreast: `${formData.propertyName}`
     }
 
     try {
@@ -214,7 +215,13 @@ const BookTour = () => {
               </div>
 
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => {
+                  if (window.history.length > 1) {
+                    navigate(-1)
+                  } else {
+                    navigate('/')
+                  }
+                }}
                 className="text-brand-yellow text-xs font-black uppercase tracking-widest hover:underline"
               >
                 Back

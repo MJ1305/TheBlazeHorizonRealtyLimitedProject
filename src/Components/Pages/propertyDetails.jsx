@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { properties } from '../data/property'
+import { properties } from '../../data/property'
 
 const PropertyDetails = () => {
   const { slug } = useParams()
@@ -12,8 +12,20 @@ const PropertyDetails = () => {
     const found = properties.find(
       (p) => p.slug === slug
     )
+
     setProperty(found || null)
   }, [slug])
+
+  // ✅ ADDED: redirect invalid slugs to 404
+  useEffect(() => {
+    if (property === null) {
+      const exists = properties.some(p => p.slug === slug)
+
+      if (!exists) {
+        navigate('*') // sends to NotFound page
+      }
+    }
+  }, [property, slug, navigate])
 
   const handleBookTour = () => {
     navigate('/book-tour', { state: { property } })

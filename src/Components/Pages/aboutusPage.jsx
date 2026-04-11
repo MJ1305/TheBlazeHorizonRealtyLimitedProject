@@ -1,7 +1,8 @@
 import React from 'react'
 
-import build3 from './Images/img7.jpeg'
-// import build4 from './Images/img10.jpg'
+//Images
+import build3 from '../Images/img7.jpeg'
+
 
 const AboutPage = () => {
   // Core values
@@ -142,7 +143,7 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-yellow text-[15px] font-black tracking-[0.4em] uppercase mb-4 block">Core Values</span>
-            <h2 className="text-6xl font-black text-[#03302b]">The Horizon Code</h2>
+            <h2 className="text-6xl font-black text-[#03302b]">The Horizon <span className='text-[#fa8e12]'>Code</span> </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (

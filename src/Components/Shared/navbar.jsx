@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from "react-router-dom"
-import Logo from "./Images/imglogo.jpeg"
+import Logo from "../Images/imglogo.jpeg"
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
