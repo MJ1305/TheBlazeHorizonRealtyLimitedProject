@@ -120,7 +120,7 @@ const ContactPage = () => {
 
   // Address click handler - Opens Google Maps
   const handleAddressClick = () => {
-    const address = encodeURIComponent('Level 12, Kingdom Towers, Lekki Phase 1, Lagos, Nigeria')
+    const address = encodeURIComponent('41, diya street, Gbagada Lagos, Nigeria')
     const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${address}`
     window.open(googleMapsLink, '_blank')
   }

@@ -5,6 +5,8 @@ import build4 from '../Components/Images/img4.jpeg'
 import build5 from '../Components/Images/img5.jpg'
 import build6 from '../Components/Images/img6.jpg'
 
+
+
 const imgSet = [build1, build2, build3, build4, build5, build6]
 
 export const properties = [
