@@ -114,34 +114,34 @@ const ContactPage = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 sm:pt-24 pb-12 sm:pb-16">
-      <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 bg-white w-full">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-start">
+    <div className="min-h-screen pt-16 sm:pt-20 md:pt-24 pb-10 sm:pb-12 md:pb-16">
+      <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 md:px-6 bg-white w-full">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-start">
           
           {/* Left Side - Contact Info */}
           <div className="order-2 lg:order-1">
-            <span className="text-brand-yellow text-[8px] sm:text-[9px] md:text-[10px] font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-3 sm:mb-4 block">
+            <span className="text-brand-yellow text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-2 sm:mb-3 md:mb-4 block">
               Get In Touch
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-3 sm:mb-4 md:mb-6">
               Let's Secure <br className="hidden sm:block"/> Your <span className="text-brand-yellow">Future</span>
             </h2>
-            <p className="text-gray-600 mb-6 sm:mb-8 md:mb-10 leading-relaxed text-sm sm:text-base">
+            <p className="text-gray-600 mb-5 sm:mb-6 md:mb-8 lg:mb-10 leading-relaxed text-xs sm:text-sm md:text-base">
               Ready to take the next step? Our consultants are standing by to guide you through our portfolio and investment options.
             </p>
             
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
               {/* Corporate Office */}
               <button className="flex items-start text-left w-full group" onClick={handleAddressClick}>
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-3 sm:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-2 sm:mr-3 md:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-black text-[10px] sm:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Corporate Office</h4>
-                  <p className="text-gray-500 text-xs sm:text-sm leading-relaxed hover:text-brand-yellow transition-colors">
+                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Corporate Office</h4>
+                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm leading-relaxed hover:text-brand-yellow transition-colors">
                     Level 12, Kingdom Towers, <br /> Lekki Phase 1, Lagos, Nigeria.
                   </p>
                 </div>
@@ -149,14 +149,14 @@ const ContactPage = () => {
 
               {/* Call Us */}
               <div className="flex items-start">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-3 sm:mr-5 flex-shrink-0">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-2 sm:mr-3 md:mr-5 flex-shrink-0">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-black text-[10px] sm:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Call Us</h4>
-                  <p className="text-gray-500 text-xs sm:text-sm">
+                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Call Us</h4>
+                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm">
                     <a href="tel:+2348123209188" className="hover:text-brand-yellow transition-colors">
                       +234 812 320 9188
                     </a>                    
@@ -166,14 +166,14 @@ const ContactPage = () => {
 
               {/* Email Us */}
               <button className="flex items-start w-full group" onClick={() => handleEmailClick('blazehorizonrealty@gmail.com', 'Property Inquiry')}>
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-3 sm:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-2 sm:mr-3 md:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-black text-[10px] sm:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Email Us</h4>
-                  <p className="text-gray-500 text-xs sm:text-sm group-hover:text-brand-yellow transition-colors">
+                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Email Us</h4>
+                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm group-hover:text-brand-yellow transition-colors">
                     blazehorizonrealty@gmail.com
                   </p>
                 </div>
@@ -181,8 +181,8 @@ const ContactPage = () => {
             </div>
 
             {/* Map Placeholder */}
-            <div className="mt-8 sm:mt-10 bg-gray-100 h-40 sm:h-48 rounded-2xl overflow-hidden relative">
-              <div className="absolute inset-0 flex items-center justify-center text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest">
+            <div className="mt-6 sm:mt-8 md:mt-10 bg-gray-100 h-32 sm:h-40 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden relative">
+              <div className="absolute inset-0 flex items-center justify-center text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-black text-gray-400 uppercase tracking-widest">
                 Interactive Map View
               </div>
               <img 
@@ -194,14 +194,14 @@ const ContactPage = () => {
           </div>
 
           {/* Right Side - Contact Form WITH BACKGROUND IMAGE PRESERVED */}
-          <div className="order-1 lg:order-2 bg-gray-50 p-5 sm:p-6 md:p-8 lg:p-12 rounded-2xl bg-Background02 bg-no-repeat bg-cover items-center flex flex-col">
-            <h3 className="text-xl sm:text-2xl font-black mb-6 sm:mb-10 md:mb-16 lg:mb-20 text-gray-900 underline-offset-2 underline text-center sm:text-left">
+          <div className="order-1 lg:order-2 bg-gray-50 p-4 sm:p-5 md:p-6 lg:p-8 xl:p-12 rounded-xl sm:rounded-2xl bg-Background02 bg-no-repeat bg-cover items-center flex flex-col">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-black mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12 text-gray-900 underline-offset-2 underline text-center sm:text-left">
               Send a Message
             </h3>
             
             {/* Status Message Display */}
             {formStatus.message && (
-              <div className={`mb-5 sm:mb-6 p-3 sm:p-4 rounded-xl w-full text-sm ${
+              <div className={`mb-4 sm:mb-5 md:mb-6 p-3 sm:p-3.5 md:p-4 rounded-xl w-full text-xs sm:text-sm ${
                 formStatus.type === 'success' 
                   ? 'bg-green-100 text-green-700 border border-green-200' 
                   : formStatus.type === 'error'
@@ -212,10 +212,10 @@ const ContactPage = () => {
               </div>
             )}
             
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 w-full">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 md:space-y-5 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
                 <div>
-                  <label className="block text-[13px] sm:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
+                  <label className="block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
                     First Name *
                   </label>
                   <input 
@@ -224,12 +224,12 @@ const ContactPage = () => {
                     value={formData.firstName}
                     onChange={handleChange}
                     placeholder="John" 
-                    className="w-full bg-white outline-none shadow-md py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-sm sm:text-base"
+                    className="w-full bg-white outline-none shadow-md py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-xs sm:text-sm md:text-base"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[13px] sm:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
+                  <label className="block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
                     Last Name *
                   </label>
                   <input 
@@ -238,14 +238,14 @@ const ContactPage = () => {
                     value={formData.lastName}
                     onChange={handleChange}
                     placeholder="Doe" 
-                    className="w-full bg-white outline-none shadow-md py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-sm sm:text-base"
+                    className="w-full bg-white outline-none shadow-md py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-xs sm:text-sm md:text-base"
                     required
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-[13px] sm:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
+                <label className="block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
                   Email Address *
                 </label>
                 <input 
@@ -254,20 +254,20 @@ const ContactPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john@example.com" 
-                  className="w-full bg-white outline-none shadow-md py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-sm sm:text-base"
+                  className="w-full bg-white outline-none shadow-md py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all text-xs sm:text-sm md:text-base"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-[13px] sm:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
+                <label className="block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
                   Interest Type
                 </label>
                 <select 
                   name="interest"
                   value={formData.interest}
                   onChange={handleChange}
-                  className="w-full bg-white outline-none shadow-md py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all appearance-none cursor-pointer text-sm sm:text-base"
+                  className="w-full bg-white outline-none shadow-md py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all appearance-none cursor-pointer text-xs sm:text-sm md:text-base"
                 >
                   <option>Luxury Residential</option>
                   <option>Commercial Land</option>
@@ -277,7 +277,7 @@ const ContactPage = () => {
               </div>
               
               <div>
-                <label className="block text-[13px] sm:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
+                <label className="block text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] text-[#fa8e12] font-black uppercase tracking-wider mb-1 sm:mb-2">
                   Message *
                 </label>
                 <textarea 
@@ -286,7 +286,7 @@ const ContactPage = () => {
                   onChange={handleChange}
                   rows="4" 
                   placeholder="How can we help you?" 
-                  className="w-full bg-white outline-none shadow-md py-2.5 sm:py-3 px-4 sm:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all resize-none text-sm sm:text-base"
+                  className="w-full bg-white outline-none shadow-md py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 rounded-xl focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow transition-all resize-none text-xs sm:text-sm md:text-base"
                   required
                 ></textarea>
               </div>
@@ -294,7 +294,7 @@ const ContactPage = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full mt-6 sm:mt-8 md:mt-10 text-white font-black uppercase tracking-widest py-3.5 sm:py-4 rounded-xl transition-all duration-300 ${
+                className={`w-full mt-4 sm:mt-5 md:mt-6 lg:mt-8 text-white font-black uppercase tracking-widest py-3 sm:py-3.5 md:py-4 rounded-xl transition-all duration-300 text-[11px] sm:text-xs md:text-sm ${
                   isSubmitting 
                     ? 'bg-gray-400 cursor-not-allowed' 
                     : 'bg-orange-400 hover:scale-[1.02]'
