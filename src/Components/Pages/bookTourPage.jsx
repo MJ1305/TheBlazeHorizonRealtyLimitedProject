@@ -8,8 +8,6 @@ const BookTour = () => {
   const navigate = useNavigate() 
   const selectedProperty = location.state?.property
 
- 
-
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -166,191 +164,258 @@ const BookTour = () => {
   const maxDateStr = maxDate.toISOString().split('T')[0]
 
   return (
-    <div className="responsive-tour min-h-screen pt-24 pb-16 px-6 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-brand-yellow text-[10px] font-black tracking-[0.4em] uppercase mb-4 block">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        
+        {/* Header Section with Icon */}
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-[#fa8e12]/10 rounded-full mb-4">
+            <svg className="w-6 h-6 sm:w-7 sm:h-7 text-[#fa8e12]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <span className="inline-block text-brand-yellow text-[8px] sm:text-[9px] md:text-[10px] font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-2 sm:mb-3 px-3 py-1 bg-white rounded-full shadow-sm">
             Schedule a Visit
           </span>
-          <h1 className="text-4xl md:text-5xl font-black text-[#03302b] mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#03302b] mt-3 sm:mt-4 mb-3 sm:mb-4 px-2">
             Book a Property Tour
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Fill out the form below to schedule a private tour.
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4">
+            Fill out the form below and our team will contact you within 24 hours to confirm your appointment.
           </p>
         </div>
 
+        {/* Selected Property Card - Enhanced */}
         {selectedProperty && (
-          <div className="mb-8 bg-white rounded-2xl p-6 border border-gray-200 shadow-lg">
-            <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
-              <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                <img
-                  src={selectedProperty.image}
-                  className="w-full h-full object-cover"
-                  alt={selectedProperty.title}
-                />
+          <div className="mb-6 sm:mb-8 bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+            <div className="bg-gradient-to-r from-[#03302b] to-[#044b44 px-4 sm:px-6 py-2.5 sm:py-3">
+              <p className="text-white text-[10px] sm:text-xs font-black uppercase tracking-wider flex items-center gap-2">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                SELECTED PROPERTY
+              </p>
+            </div>
+            <div className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                {/* Property Image */}
+                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                  <img
+                    src={selectedProperty.image}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    alt={selectedProperty.title}
+                  />
+                </div>
+                
+                {/* Property Details */}
+                <div className="flex-grow text-center sm:text-left">
+                  <h3 className="font-black text-lg sm:text-xl text-[#03302b] mb-1">
+                    {selectedProperty.title}
+                  </h3>
+                  <div className="flex items-center justify-center sm:justify-start gap-1 text-gray-500 text-xs sm:text-sm mb-2">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    </svg>
+                    <span>{selectedProperty.location}</span>
+                  </div>
+                  <p className="text-gray-400 text-[10px] sm:text-xs break-words">
+                    📍 {selectedProperty.fullAddress}
+                  </p>
+                </div>
+                
+                {/* Back Button */}
+                <button
+                  onClick={() => {
+                    if (window.history.length > 1) {
+                      navigate(-1)
+                    } else {
+                      navigate('/')
+                    }
+                  }}
+                  className="flex items-center gap-1.5 bg-[#fa8e12] text-[#033630] px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest transition-all duration-500 hover:scale-95 flex-shrink-0 mt-2 sm:mt-0 shadow-md hover:shadow-lg"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Change Property
+                </button>
               </div>
-              <div className="flex-grow">
-                <h3 className="font-black text-lg text-[#03302b]">
-                  Selected Property
-                </h3>
-                <p className="text-gray-800 font-bold">
-                  {selectedProperty.title}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {selectedProperty.location}
-                </p>
-                <p className="text-gray-400 text-xs mt-1">
-                  {selectedProperty.fullAddress}
-                </p>
-              </div>
-              <button
-                onClick={() => {
-                  if (window.history.length > 1) {
-                    navigate(-1)
-                  } else {
-                    navigate('/')
-                  }
-                }}
-                className="text-brand-yellow text-xs font-black uppercase tracking-widest hover:underline flex-shrink-0"
-              >
-                Back
-              </button>
             </div>
           </div>
         )}
 
-        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10">
-          {formStatus.message && (
-            <div className={`mb-6 p-4 rounded-xl ${
-              formStatus.type === 'success'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-red-100 text-red-700'
-            }`}>
-              {formStatus.message}
+        {/* Form Section - Enhanced */}
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden">
+          {/* Form Header */}
+          <div className="bg-gray-50 px-5 sm:px-6 md:px-8 py-4 sm:py-5 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-[#fa8e12]/10 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-[#fa8e12]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h2 className="font-black text-base sm:text-lg text-[#03302b]">Tour Request Form</h2>
             </div>
-          )}
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <input
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              />
-              <input
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              />
-            </div>
+          <div className="p-5 sm:p-6 md:p-8">
+            {/* Status Message */}
+            {formStatus.message && (
+              <div className={`mb-5 sm:mb-6 p-3.5 sm:p-4 rounded-xl text-sm flex items-start gap-3 ${
+                formStatus.type === 'success'
+                  ? 'bg-green-50 text-green-700 border border-green-200'
+                  : 'bg-red-50 text-red-700 border border-red-200'
+              }`}>
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {formStatus.type === 'success' ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  )}
+                </svg>
+                <span className="flex-1">{formStatus.message}</span>
+              </div>
+            )}
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <input
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              />
-              <input
-                name="phone"
-                placeholder="Phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              />
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+              {/* Name Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    First Name <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <input
+                    name="firstName"
+                    placeholder="Enter your first name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    Last Name <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <input
+                    name="lastName"
+                    placeholder="Enter your last name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all"
+                  />
+                </div>
+              </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <input
-                type="date"
-                name="preferredDate"
-                value={formData.preferredDate}
-                onChange={handleChange}
-                min={today}
-                max={maxDateStr}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              />
-              <select
-                name="preferredTime"
-                value={formData.preferredTime}
-                onChange={handleChange}
-                className="w-full bg-gray-50 border rounded-xl py-3 px-5"
+              {/* Contact Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    Email Address <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    Phone Number <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <input
+                    name="phone"
+                    placeholder="+123 456 7890"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Date & Time Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    Preferred Date <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    name="preferredDate"
+                    value={formData.preferredDate}
+                    onChange={handleChange}
+                    min={today}
+                    max={maxDateStr}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                    Preferred Time <span className="text-[#fa8e12]">*</span>
+                  </label>
+                  <select
+                    name="preferredTime"
+                    value={formData.preferredTime}
+                    onChange={handleChange}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 sm:py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all appearance-none"
+                  >
+                    <option value="">Select a time slot</option>
+                    {timeSlots.map(t => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Message Field */}
+              <div>
+                <label className="block text-[10px] sm:text-xs font-black text-gray-500 uppercase tracking-wider mb-1.5 sm:mb-2">
+                  Additional Message <span className="text-gray-400">(Optional)</span>
+                </label>
+                <textarea
+                  name="message"
+                  placeholder="Any specific questions or requests for the tour?"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 sm:px-5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#fa8e12] focus:border-transparent transition-all resize-none"
+                  rows="4"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-[#fa8e12] to-[#f59e0b] text-white py-3.5 sm:py-4 rounded-xl font-black text-sm sm:text-base uppercase tracking-wider hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
               >
-                <option value="">Select Time</option>
-                {timeSlots.map(t => (
-                  <option key={t}>{t}</option>
-                ))}
-              </select>
-            </div>
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Sending Request...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    Schedule Tour
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </span>
+                )}
+              </button>
 
-            <textarea
-              name="message"
-              placeholder="Message"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full bg-gray-50 border rounded-xl py-3 px-5"
-              rows="4"
-            />
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-[#fa8e12] text-white py-4 rounded-xl font-black"
-            >
-              {isSubmitting ? 'Sending...' : 'Schedule Tour'}
-            </button>
-          </form>
+              {/* Note */}
+              <p className="text-center text-[10px] sm:text-xs text-gray-400 mt-4">
+                By submitting this form, you agree to our <button type="button" className="text-[#fa8e12] hover:underline">Terms of Service</button> and <button type="button" className="text-[#fa8e12] hover:underline">Privacy Policy</button>.
+                We'll contact you within 24 hours to confirm your tour.
+              </p>
+            </form>
+          </div>
         </div>
       </div>
-
-      {/* Responsive Styles */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .responsive-tour {
-            width: 100%;
-            overflow-x: hidden;
-          }
-          
-          .responsive-tour h1 {
-            font-size: 1.75rem;
-            text-align: center;
-          }
-          
-          .responsive-tour .grid {
-            gap: 1rem;
-          }
-          
-          .responsive-tour input,
-          .responsive-tour select,
-          .responsive-tour textarea {
-            font-size: 16px;
-          }
-        }
-        
-        @media (min-width: 641px) and (max-width: 768px) {
-          .responsive-tour {
-            width: 100%;
-          }
-        }
-        
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .responsive-tour {
-            width: 100%;
-          }
-        }
-        
-        @media (min-width: 1025px) {
-          .responsive-tour {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   )
 }

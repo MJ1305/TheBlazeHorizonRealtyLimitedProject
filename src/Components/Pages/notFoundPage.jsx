@@ -13,76 +13,28 @@ const NotFound = () => {
   }, [])
 
   return (
-    <div className="responsive-notfound min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gray-50">
-      <h1 className="text-6xl font-black text-[#03302b] mb-4">
+    <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 bg-gray-50">
+      {/* 404 Number */}
+      <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-[#03302b] mb-3 sm:mb-4">
         404
       </h1>
-      <h2 className="text-2xl font-bold text-[#03302b] mb-2">
+      
+      {/* Error Message */}
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#03302b] mb-2 sm:mb-3">
         Page Not Found
       </h2>
-      <p className="text-gray-600 mb-6 max-w-md">
+      
+      <p className="text-gray-600 mb-6 sm:mb-8 max-w-md text-sm sm:text-base px-4">
         The page you are looking for doesn't exist or has been moved.
       </p>
+      
+      {/* Home Button */}
       <button
         onClick={() => navigate('/')}
-        className="bg-[#fa8e12] text-white px-6 py-3 rounded-xl font-black hover:scale-105 transition-all"
+        className="bg-[#fa8e12] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-black hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[220px] sm:max-w-none"
       >
         Go Back Home
       </button>
-
-      {/* Responsive Styles */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .responsive-notfound {
-            width: 100%;
-            overflow-x: hidden;
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-          
-          .responsive-notfound h1 {
-            font-size: 3rem;
-          }
-          
-          .responsive-notfound h2 {
-            font-size: 1.25rem;
-          }
-          
-          .responsive-notfound p {
-            font-size: 0.875rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-          }
-          
-          .responsive-notfound button {
-            width: 100%;
-            max-width: 250px;
-            padding: 0.75rem 1rem;
-          }
-        }
-        
-        @media (min-width: 641px) and (max-width: 768px) {
-          .responsive-notfound {
-            width: 100%;
-          }
-          
-          .responsive-notfound h1 {
-            font-size: 4rem;
-          }
-        }
-        
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .responsive-notfound {
-            width: 100%;
-          }
-        }
-        
-        @media (min-width: 1025px) {
-          .responsive-notfound {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   )
 }
