@@ -127,14 +127,16 @@ const HomePage = () => {
         
         <div className="relative z-10 max-w-5xl mx-auto animate-fade-in px-4">
           <div className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-brand-yellow/10 border border-brand-yellow/20 rounded-full mb-4 sm:mb-6">
-            <span className="text-brand-yellow text-[8px] sm:text-[9px] md:text-[10px] font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase">
+            <span className="text-white text-[8px] sm:text-[9px] md:text-[10px] font-black tracking-[0.3em] sm:tracking-[0.4em] uppercase">
               Premium Real Estate Solutions
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black text-white mb-4 sm:mb-6 md:mb-8 tracking-tighter leading-[1.2] px-2">
             MAKING YOUR DREAM HOME A REALITY
           </h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 justify-around items-center">            
+          
+          {/* Updated button container with smaller text on mobile */}
+          <div className="flex flex-row justify-around items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 w-full max-w-2xl mx-auto">            
             <ScrollLink
               to="home-about-summary"
               smooth={true}
@@ -142,13 +144,13 @@ const HomePage = () => {
               offset={-80}
               spy={true}
               hashSpy={true}
-              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-5 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-4 lg:py-5 rounded-lg font-black uppercase tracking-widest text-[10px] sm:text-xs hover:bg-white/10 transition-all cursor-pointer w-full sm:w-auto"
+              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-3 sm:px-5 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 lg:py-4 rounded-lg font-black uppercase tracking-wider sm:tracking-widest text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs hover:bg-white/10 transition-all cursor-pointer text-center min-w-[110px] sm:min-w-[130px] md:min-w-[150px] lg:min-w-[160px] whitespace-nowrap"
             >
               Our Story
             </ScrollLink>
             <button 
               onClick={() => navigate('/listings')}
-              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-5 sm:px-6 md:px-8 lg:px-10 py-2.5 sm:py-3 md:py-4 lg:py-5 rounded-lg font-black uppercase tracking-widest text-[10px] sm:text-xs hover:bg-white/10 transition-all w-full sm:w-auto"
+              className="bg-white/5 backdrop-blur-xl text-white border border-white/10 px-3 sm:px-5 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 lg:py-4 rounded-lg font-black uppercase tracking-wider sm:tracking-widest text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs hover:bg-white/10 transition-all text-center min-w-[110px] sm:min-w-[130px] md:min-w-[150px] lg:min-w-[160px] whitespace-nowrap"
             >
               Explore Collections
             </button>

@@ -58,7 +58,7 @@ const Navigation = () => {
   return (
     <>
       <nav 
-        className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-6 md:px-12 lg:px-24 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 py-3 sm:py-4 px-3 sm:px-4 md:px-6 lg:px-12 xl:px-24 transition-all duration-300 ${
           isScrolled 
             ? 'bg-[#03302b] shadow-lg' 
             : 'bg-transparent'
@@ -71,19 +71,19 @@ const Navigation = () => {
             className="text-2xl font-black tracking-tight text-white flex items-center"
           >
             <img 
-              className='w-[7rem] sm:w-[8rem] h-[3rem] sm:h-[3.5rem] rounded-xl object-contain' 
+              className='w-[5.5rem] sm:w-[6rem] md:w-[7rem] lg:w-[8rem] h-[2.5rem] sm:h-[2.8rem] md:h-[3rem] lg:h-[3.5rem] object-contain' 
               src={Logo} 
               alt="logo" 
             />
           </Link>
 
           {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-10">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-10">
             {navItems.map(item => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`text-gray-300 hover:text-brand-yellow transition-all text-xs font-black uppercase tracking-widest pb-1 ${
+                className={`text-gray-300 hover:text-brand-yellow transition-all text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs font-black uppercase tracking-widest pb-1 ${
                   currentPath === item.path ? 'text-brand-yellow border-b-2 border-brand-yellow' : ''
                 }`}
               >
@@ -95,7 +95,7 @@ const Navigation = () => {
           {/* Desktop Contact Button - Hidden on mobile */}
           <Link           
             to="/contact"
-            className={`hidden md:block bg-[#fa8e12] text-gray-900 font-black py-2.5 px-5 lg:px-6 rounded-md text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700`}
+            className={`hidden md:block bg-[#fa8e12] text-gray-900 font-black py-2 sm:py-2.5 px-4 sm:px-5 lg:px-6 rounded-md text-[9px] sm:text-[10px] md:text-[11px] lg:text-xs uppercase tracking-widest hover:scale-105 transition-all duration-700`}
           >
             Contact
           </Link>
@@ -103,34 +103,38 @@ const Navigation = () => {
           {/* Hamburger Menu Button - Only visible on mobile/tablet */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden flex flex-col items-center justify-center w-10 h-10 rounded-lg focus:outline-none z-50"
+            className="md:hidden flex flex-col items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg focus:outline-none z-50"
             aria-label="Menu"
           >
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white my-1.5 transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ease-in-out ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+            <span className={`block w-5 sm:w-6 h-0.5 bg-white transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+            <span className={`block w-5 sm:w-6 h-0.5 bg-white my-1.5 transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block w-5 sm:w-6 h-0.5 bg-white transition-all duration-300 ease-in-out ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu - Full screen overlay */}
+      {/* Mobile Menu - More transparent overlay with blur effect */}
       <div 
-        className={`fixed inset-0 bg-[#03302b] z-40 transition-all duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 transition-all duration-300 md:hidden ${
           isMobileMenuOpen 
             ? 'opacity-100 visible' 
             : 'opacity-0 invisible pointer-events-none'
         }`}
-        style={{ top: '72px' }}
+        style={{ top: '64px' }}
       >
-        <div className="flex flex-col items-center justify-start pt-8 px-6 pb-12 h-full overflow-y-auto">
+        {/* Backdrop with more transparency and blur effect */}
+        <div className="absolute inset-0 bg-[#03302b]/70 backdrop-blur-md"></div>
+        
+        {/* Menu Content */}
+        <div className="relative z-10 flex flex-col items-center justify-start pt-6 sm:pt-8 px-4 sm:px-6 pb-12 h-full overflow-y-auto">
           {/* Mobile Navigation Links */}
-          <div className="flex flex-col items-center space-y-6 w-full">
+          <div className="flex flex-col items-center space-y-4 sm:space-y-6 w-full">
             {navItems.map(item => (
               <Link
                 key={item.id}
                 to={item.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-gray-300 hover:text-brand-yellow transition-all text-lg font-black uppercase tracking-widest py-2 w-full text-center ${
+                className={`text-gray-200 hover:text-brand-yellow transition-all text-base sm:text-lg md:text-xl font-black uppercase tracking-widest py-2 w-full text-center ${
                   currentPath === item.path ? 'text-brand-yellow border-b-2 border-brand-yellow' : ''
                 }`}
               >
@@ -142,7 +146,7 @@ const Navigation = () => {
             <Link           
               to="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="bg-[#fa8e12] text-gray-900 font-black py-3 px-8 rounded-md text-sm uppercase tracking-widest hover:scale-105 transition-all duration-700 mt-6 inline-block"
+              className="bg-[#fa8e12] text-gray-900 font-black py-2.5 sm:py-3 px-6 sm:px-8 rounded-md text-xs sm:text-sm uppercase tracking-widest hover:scale-105 transition-all duration-700 mt-4 sm:mt-6 inline-block"
             >
               Contact
             </Link>
