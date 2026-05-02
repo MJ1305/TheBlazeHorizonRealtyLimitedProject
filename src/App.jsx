@@ -1,58 +1,63 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/homepage";
+import Listing from "./pages/listingPage";
+import AboutPage from "./pages/aboutusPage";
+import ContactPage from "./pages/contactPage";
+import PropertyDetails from "./pages/propertyDetails";
+import BookTour from "./pages/bookTourPage";
+import NotFound from "./pages/notFoundPage";
+import ComparePage from "./pages/comparePropertiesPage";
+import Navigation from "./components/Shared/navbar";
+import ScrollToTop from "./components/functions/scrollToTop";
 
 
-//Shared
-import Navigation from './Components/Shared/navbar'
-import Footer from './Components/Shared/footer'
-
-//Functions
-import BackToTop from './Components/functions/backToTopicon'
-import ScrollToTop from './Components/functions/scrollToTop'
-//import BackButton from './Components/functions/backButton'
-
-//Pages
-import HomePage from './Components/Pages/homepage'
-import Listing from './Components/Pages/listingPage'
-import AboutPage from './Components/Pages/aboutusPage'
-import ContactPage from './Components/Pages/contactPage'
-import PropertyDetails from './Components/Pages/propertyDetails'
-import BookTour from './Components/Pages/bookTourPage'
-import NotFound from './Components/Pages/notFoundPage'
-import ComparePage from './Components/Pages/comparePropertiesPage'
-
+//Admins
+import AdminLogin from "./pages/adminPages/adminLoginPage";
+import AdminDashboard from "./pages/adminPages/adminDashboard";
+import AdminPropertiesPage from "./pages/adminPages/adminPropertyPage";
+import AddPropertyPage from "./pages/adminPages/adminAddProperty";
+import AdminsPage from "./pages/adminPages/adminsPage";
+import EditPropertyPage from "./pages/adminPages/editPropertyPage";
+import AdminForgotPasswordPage from "./pages/adminPages/adminForgotPasswordPage";
 
 function App() {
   return (
-    <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+    <Routes>
 
-      <Navigation />
-      <ScrollToTop/>
+      {/* ── Admin routes ── */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/properties" element={<AdminPropertiesPage />} />
+      <Route path="/admin/properties/new" element={<AddPropertyPage />} />
+      <Route path="/admin/admins" element={<AdminsPage />} />
+      <Route path="/admin/properties/update" element={<EditPropertyPage />} />
+      <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
 
-      <main className="flex-grow">
-        <Routes>
+      {/* ── Public routes ── */}
+      <Route
+        path="/*"
+        element={
+          <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+            <Navigation />
+            <ScrollToTop />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/listings" element={<Listing />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/property/:slug" element={<PropertyDetails />} />
+                <Route path="/book-tour" element={<BookTour />} />
+                <Route path="/compare" element={<ComparePage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+          </div>
+        }
+      />
 
-          <Route path="/" element={<HomePage />} />
-          <Route path="/listings" element={<Listing />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-
-          {/* Property details route (dynamic) */}
-          <Route path="/property/:slug" element={<PropertyDetails />} />
-
-          <Route path="/book-tour" element={<BookTour />} />
-          <Route path="/compare" element={<ComparePage />} />
-
-          <Route path="*" element={<NotFound />} />
-
-        </Routes>
-      </main>
-
-      <Footer />
-      <BackToTop />
-      {/* <BackButton /> */}
-    </div>
-  )
+    </Routes>
+  );
 }
 
-export default App
+export default App;

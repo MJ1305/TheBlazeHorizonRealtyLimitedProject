@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link as ScrollLink } from 'react-scroll'
 import { useNavigate } from 'react-router-dom'
-import PropertyCard from '../Shared/propertyCard'
-import { properties } from '../../data/property'
+import PropertyCard from '../components/Shared/propertyCard'
+import { properties } from '../data/property'
 
 const HomePage = () => {
   const navigate = useNavigate()

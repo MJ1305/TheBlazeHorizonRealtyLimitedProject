@@ -1,7 +1,7 @@
 import React from 'react'
 
 //Images
-import build3 from '../Images/img7.jpeg'
+import build3 from '../assets/images/img7.jpeg'
 
 const AboutPage = () => {
   // Core values

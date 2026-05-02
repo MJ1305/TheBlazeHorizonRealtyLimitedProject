@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropertyCard from "../Shared/propertyCard";
-import { properties } from "../../data/property";
+import PropertyCard from "../components/Shared/propertyCard";
+import { properties } from "../data/property";
 
 const Listing = () => {
   const navigate = useNavigate();

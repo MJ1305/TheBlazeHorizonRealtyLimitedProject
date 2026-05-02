@@ -1,9 +1,9 @@
-import build1 from '../Components/Images/img1.jpeg'
-import build2 from '../Components/Images/img2.jpeg'
-import build3 from '../Components/Images/img3.jpeg'
-import build4 from '../Components/Images/img4.jpeg'
-import build5 from '../Components/Images/img5.jpg'
-import build6 from '../Components/Images/img6.jpg'
+import build1 from '../assets/images/img1.jpeg'
+import build2 from '../assets/images/img2.jpeg'
+import build3 from '../assets/images/img3.jpeg'
+import build4 from '../assets/images/img4.jpeg'
+import build5 from '../assets/images/img5.jpg'
+import build6 from '../assets/images/img6.jpg'
 
 
 
