@@ -10,7 +10,6 @@ import ComparePage from "./pages/comparePropertiesPage";
 import Navigation from "./components/Shared/navbar";
 import ScrollToTop from "./components/functions/scrollToTop";
 
-
 //Admins
 import AdminLogin from "./pages/adminPages/adminLoginPage";
 import AdminDashboard from "./pages/adminPages/adminDashboard";
@@ -30,7 +29,7 @@ function App() {
       <Route path="/admin/properties" element={<AdminPropertiesPage />} />
       <Route path="/admin/properties/new" element={<AddPropertyPage />} />
       <Route path="/admin/admins" element={<AdminsPage />} />
-      <Route path="/admin/properties/update" element={<EditPropertyPage />} />
+      <Route path="/admin/properties/edit/:id" element={<EditPropertyPage />} />
       <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
 
       {/* ── Public routes ── */}

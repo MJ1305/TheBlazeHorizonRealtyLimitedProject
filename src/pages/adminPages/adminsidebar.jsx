@@ -61,11 +61,6 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     const getAdmin = async () => {
-      // ── DEV BYPASS: remove these two lines when network is fixed ──
-      setAdmin({ display_name: "Super Admin", role: "super_admin", must_change_password: false });
-      return;
-      // ── END BYPASS ──
-
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { navigate("/admin/login"); return; }
 
@@ -80,7 +75,7 @@ export default function AdminLayout({ children }) {
         .from("property_drafts")
         .select("id")
         .eq("admin_id", user.id)
-        .single();
+        .maybeSingle();
       if (draft) setHasDraft(true);
     };
     getAdmin();
@@ -215,7 +210,7 @@ export default function AdminLayout({ children }) {
           </div>
         </header>
 
-        {/* Page content */}
+        {/* page content */}
         <main className="flex-1 p-6">{children}</main>
       </div>
     </div>

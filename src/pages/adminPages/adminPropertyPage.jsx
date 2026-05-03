@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "../adminPages/adminsidebar";
 import { Link } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 
 const statusColors = {
   available: { bg: "#e6f4ed", color: "#1B3A2D" },
@@ -12,6 +13,28 @@ const statusColors = {
 export default function AdminPropertiesPage() {
   const [properties, setProperties] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("properties")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (!error) setProperties(data || []);
+    setLoading(false);
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this property?")) return;
+    const { error } = await supabase.from("properties").delete().eq("id", id);
+    if (!error) setProperties((prev) => prev.filter((p) => p.id !== id));
+    else alert("Failed to delete property.");
+  };
 
   const filtered = filter === "all"
     ? properties
@@ -56,7 +79,15 @@ export default function AdminPropertiesPage() {
 
         {/* Table */}
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="p-16 text-center">
+              <svg className="animate-spin mx-auto mb-3 opacity-40" width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="#1B3A2D" strokeWidth="4"/>
+                <path className="opacity-75" fill="#1B3A2D" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+              <p className="text-gray-400 text-sm">Loading properties...</p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="p-16 text-center">
               <svg className="mx-auto mb-3 opacity-20" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B3A2D" strokeWidth="1.5">
                 <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -119,11 +150,7 @@ export default function AdminPropertiesPage() {
                         </Link>
                         <button
                           className="text-sm font-medium text-red-500 hover:opacity-70"
-                          onClick={() => {
-                            if (confirm("Are you sure you want to delete this property?")) {
-                              setProperties(properties.filter((x) => x.id !== p.id));
-                            }
-                          }}
+                          onClick={() => handleDelete(p.id)}
                         >
                           Delete
                         </button>

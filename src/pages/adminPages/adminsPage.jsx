@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "../adminPages/adminsidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
 
 const generatePassword = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#!";
@@ -9,36 +10,88 @@ const generatePassword = () => {
 };
 
 export default function AdminsPage() {
-  const [admins, setAdmins] = useState([
-    { id: "1", display_name: "Super Admin", email: "blazehorizonrealty@gmail.com", role: "super_admin", created_at: new Date().toISOString() },
-  ]);
+  const [admins, setAdmins] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ display_name: "", email: "" });
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [currentAdmin, setCurrentAdmin] = useState(null);
+
+  useEffect(() => {
+    fetchAdmins();
+    getCurrentAdmin();
+  }, []);
+
+  const getCurrentAdmin = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    const { data } = await supabase
+      .from("admins")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    setCurrentAdmin(data);
+  };
+
+  const fetchAdmins = async () => {
+    setFetching(true);
+    const { data, error } = await supabase
+      .from("admins")
+      .select("*")
+      .order("created_at", { ascending: true });
+    if (!error) setAdmins(data || []);
+    setFetching(false);
+  };
 
   const handleCreate = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const password = generatePassword();
-    setGeneratedPassword(password);
 
-    // TODO: create user in Supabase Auth + insert into admins table when network is fixed
-    const newAdmin = {
-      id: Date.now().toString(),
-      display_name: form.display_name,
-      email: form.email,
-      role: "admin",
-      created_at: new Date().toISOString(),
-    };
-    setAdmins((prev) => [...prev, newAdmin]);
+    const password = generatePassword();
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase.rpc("create_admin_user", {
+        admin_email: form.email,
+        admin_password: password,
+        admin_display_name: form.display_name,
+        created_by_id: user.id,
+      });
+
+      if (error) {
+        alert("Error creating admin: " + error.message);
+        setLoading(false);
+        return;
+      }
+
+      setGeneratedPassword(password);
+
+      // Optimistically add the new admin to the list immediately
+      setAdmins((prev) => [...prev, {
+        id: data,
+        email: form.email,
+        display_name: form.display_name,
+        role: "admin",
+        must_change_password: true,
+      }]);
+
+    } catch (err) {
+      alert("Something went wrong: " + err.message);
+    }
     setLoading(false);
   };
 
-  const handleDelete = (id) => {
-    setAdmins((prev) => prev.filter((a) => a.id !== id));
-    setDeleteConfirm(null);
+  const handleDelete = async (id) => {
+    try {
+      const { error } = await supabase.from("admins").delete().eq("id", id);
+      if (error) { alert("Error deleting admin: " + error.message); return; }
+      setAdmins((prev) => prev.filter((a) => a.id !== id));
+      setDeleteConfirm(null);
+    } catch (err) {
+      alert("Something went wrong.");
+    }
   };
 
   return (
@@ -94,7 +147,8 @@ export default function AdminsPage() {
                         <span className="text-sm font-mono font-medium" style={{ color: "#1B3A2D" }}>{generatedPassword}</span>
                         <button
                           onClick={() => navigator.clipboard.writeText(generatedPassword)}
-                          className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: "#F5A623", color: "#1B3A2D" }}
+                          className="text-xs px-2 py-0.5 rounded"
+                          style={{ backgroundColor: "#F5A623", color: "#1B3A2D" }}
                         >
                           Copy
                         </button>
@@ -103,7 +157,17 @@ export default function AdminsPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Button onClick={() => { setShowForm(false); setGeneratedPassword(""); }} className="rounded-xl text-white" style={{ backgroundColor: "#1B3A2D" }}>Done</Button>
+                  <Button
+                    onClick={() => {
+                      setShowForm(false);
+                      setGeneratedPassword("");
+                      fetchAdmins(); // ← refetch on Done to confirm accuracy
+                    }}
+                    className="rounded-xl text-white"
+                    style={{ backgroundColor: "#1B3A2D" }}
+                  >
+                    Done
+                  </Button>
                 </div>
               </div>
             ) : (
@@ -147,51 +211,65 @@ export default function AdminsPage() {
           <div className="px-6 py-5 border-b border-gray-100" style={{ backgroundColor: "#f9faf9" }}>
             <p className="font-semibold text-sm" style={{ color: "#1B3A2D" }}>All Admins ({admins.length})</p>
           </div>
-          <div className="divide-y divide-gray-100">
-            {admins.map((admin) => (
-              <div key={admin.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0"
-                    style={{ backgroundColor: admin.role === "super_admin" ? "#1B3A2D" : "#F5A623", color: admin.role === "super_admin" ? "#F5A623" : "#1B3A2D" }}
-                  >
-                    {admin.display_name?.[0]?.toUpperCase()}
+
+          {fetching ? (
+            <div className="p-12 text-center">
+              <svg className="animate-spin mx-auto mb-3 opacity-40" width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="#1B3A2D" strokeWidth="4"/>
+                <path className="opacity-75" fill="#1B3A2D" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+              <p className="text-gray-400 text-sm">Loading admins...</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-100">
+              {admins.map((admin) => (
+                <div key={admin.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0"
+                      style={{
+                        backgroundColor: admin.role === "super_admin" ? "#1B3A2D" : "#F5A623",
+                        color: admin.role === "super_admin" ? "#F5A623" : "#1B3A2D"
+                      }}
+                    >
+                      {admin.display_name?.[0]?.toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm" style={{ color: "#1B3A2D" }}>{admin.display_name}</p>
+                      <p className="text-xs text-gray-400">{admin.email}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-sm" style={{ color: "#1B3A2D" }}>{admin.display_name}</p>
-                    <p className="text-xs text-gray-400">{admin.email}</p>
+                  <div className="flex items-center gap-4">
+                    <span
+                      className="px-3 py-1 rounded-full text-xs font-medium"
+                      style={{
+                        backgroundColor: admin.role === "super_admin" ? "#1B3A2D" : "#f0f0f0",
+                        color: admin.role === "super_admin" ? "#F5A623" : "#555",
+                      }}
+                    >
+                      {admin.role === "super_admin" ? "Super Admin" : "Admin"}
+                    </span>
+                    {admin.role !== "super_admin" && currentAdmin?.role === "super_admin" && (
+                      deleteConfirm === admin.id ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400">Sure?</span>
+                          <button onClick={() => handleDelete(admin.id)} className="text-xs font-medium text-red-500 hover:opacity-70">Yes, delete</button>
+                          <button onClick={() => setDeleteConfirm(null)} className="text-xs font-medium text-gray-400 hover:opacity-70">Cancel</button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setDeleteConfirm(admin.id)}
+                          className="text-xs font-medium text-red-400 hover:text-red-600 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span
-                    className="px-3 py-1 rounded-full text-xs font-medium"
-                    style={{
-                      backgroundColor: admin.role === "super_admin" ? "#1B3A2D" : "#f0f0f0",
-                      color: admin.role === "super_admin" ? "#F5A623" : "#555",
-                    }}
-                  >
-                    {admin.role === "super_admin" ? "Super Admin" : "Admin"}
-                  </span>
-                  {admin.role !== "super_admin" && (
-                    deleteConfirm === admin.id ? (
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400">Sure?</span>
-                        <button onClick={() => handleDelete(admin.id)} className="text-xs font-medium text-red-500 hover:opacity-70">Yes, delete</button>
-                        <button onClick={() => setDeleteConfirm(null)} className="text-xs font-medium text-gray-400 hover:opacity-70">Cancel</button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setDeleteConfirm(admin.id)}
-                        className="text-xs font-medium text-red-400 hover:text-red-600 transition-colors"
-                      >
-                        Delete
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
       </div>

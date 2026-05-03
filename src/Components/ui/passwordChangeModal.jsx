@@ -23,9 +23,29 @@ export default function PasswordChangeModal({ admin, onSuccess }) {
 
     setLoading(true);
     try {
-      // TODO: update password in Supabase Auth when network is fixed
-      // await supabase.auth.updateUser({ password: form.password });
-      // await supabase.from("admins").update({ must_change_password: false }).eq("id", admin.id);
+      // Step 1: Update password in Supabase Auth
+      const { error: authError } = await supabase.auth.updateUser({
+        password: form.password,
+      });
+
+      if (authError) {
+        setError("Failed to update password: " + authError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Step 2: Flip must_change_password to false in admins table
+      const { error: dbError } = await supabase
+        .from("admins")
+        .update({ must_change_password: false })
+        .eq("id", admin.id);
+
+      if (dbError) {
+        setError("Password updated but profile not synced: " + dbError.message);
+        setLoading(false);
+        return;
+      }
+
       onSuccess();
     } catch (err) {
       setError("Something went wrong. Please try again.");
