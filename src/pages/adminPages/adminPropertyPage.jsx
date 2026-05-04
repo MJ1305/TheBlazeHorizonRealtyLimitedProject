@@ -14,6 +14,10 @@ export default function AdminPropertiesPage() {
   const [properties, setProperties] = useState([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
+  const [stateFilter, setStateFilter] = useState("");
+  const [countryFilter, setCountryFilter] = useState("");
 
   useEffect(() => {
     fetchProperties();
@@ -36,9 +40,29 @@ export default function AdminPropertiesPage() {
     else alert("Failed to delete property.");
   };
 
-  const filtered = filter === "all"
-    ? properties
-    : properties.filter((p) => p.status === filter);
+  const clearFilters = () => {
+    setSearch("");
+    setLocationFilter("");
+    setStateFilter("");
+    setCountryFilter("");
+    setFilter("all");
+  };
+
+  // Unique values for dropdowns
+  const uniqueLocations = [...new Set(properties.map((p) => p.location).filter(Boolean))].sort();
+  const uniqueStates = [...new Set(properties.map((p) => p.state).filter(Boolean))].sort();
+  const uniqueCountries = [...new Set(properties.map((p) => p.country).filter(Boolean))].sort();
+
+  const filtered = properties.filter((p) => {
+    const matchesStatus = filter === "all" || p.status === filter;
+    const matchesSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase());
+    const matchesLocation = !locationFilter || p.location === locationFilter;
+    const matchesState = !stateFilter || p.state === stateFilter;
+    const matchesCountry = !countryFilter || p.country === countryFilter;
+    return matchesStatus && matchesSearch && matchesLocation && matchesState && matchesCountry;
+  });
+
+  const hasActiveFilters = search || locationFilter || stateFilter || countryFilter || filter !== "all";
 
   return (
     <AdminLayout>
@@ -59,7 +83,7 @@ export default function AdminPropertiesPage() {
           </Link>
         </div>
 
-        {/* Filters */}
+        {/* Status Filters */}
         <div className="flex gap-2 flex-wrap">
           {["all", "available", "sold", "rented", "off-market"].map((f) => (
             <button
@@ -75,6 +99,82 @@ export default function AdminPropertiesPage() {
               {f}
             </button>
           ))}
+        </div>
+
+        {/* Search & Location Filters */}
+        <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-3">
+          {/* Search by title */}
+          <div className="relative">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search by property title..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-800"
+            />
+          </div>
+
+          {/* Location / State / Country dropdowns */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>Location</label>
+              <select
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-800"
+              >
+                <option value="">All Locations</option>
+                {uniqueLocations.map((l) => (
+                  <option key={l} value={l}>{l}</option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>State</label>
+              <select
+                value={stateFilter}
+                onChange={(e) => setStateFilter(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-800"
+              >
+                <option value="">All States</option>
+                {uniqueStates.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>Country</label>
+              <select
+                value={countryFilter}
+                onChange={(e) => setCountryFilter(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-800"
+              >
+                <option value="">All Countries</option>
+                {uniqueCountries.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Active filter summary + clear */}
+          {hasActiveFilters && (
+            <div className="flex items-center justify-between pt-1">
+              <p className="text-xs text-gray-400">
+                Showing <span className="font-semibold" style={{ color: "#1B3A2D" }}>{filtered.length}</span> of {properties.length} properties
+              </p>
+              <button
+                onClick={clearFilters}
+                className="text-xs font-medium hover:opacity-70"
+                style={{ color: "#F5A623" }}
+              >
+                Clear all filters ×
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Table */}
@@ -93,14 +193,16 @@ export default function AdminPropertiesPage() {
                 <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
                 <polyline points="9 22 9 12 15 12 15 22"/>
               </svg>
-              <p className="text-gray-400 text-sm">No properties found.</p>
-              <Link
-                to="/admin/properties/new"
-                className="inline-block mt-4 px-5 py-2 rounded-lg text-sm font-medium text-white hover:opacity-90"
-                style={{ backgroundColor: "#1B3A2D" }}
-              >
-                Add Property
-              </Link>
+              <p className="text-gray-400 text-sm">No properties match your filters.</p>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="inline-block mt-4 px-5 py-2 rounded-lg text-sm font-medium text-white hover:opacity-90"
+                  style={{ backgroundColor: "#1B3A2D" }}
+                >
+                  Clear Filters
+                </button>
+              )}
             </div>
           ) : (
             <table className="w-full text-sm">
@@ -108,6 +210,7 @@ export default function AdminPropertiesPage() {
                 <tr>
                   <th className="text-left px-6 py-3 text-gray-500 font-medium">Property</th>
                   <th className="text-left px-6 py-3 text-gray-500 font-medium">Location</th>
+                  <th className="text-left px-6 py-3 text-gray-500 font-medium">State / Country</th>
                   <th className="text-left px-6 py-3 text-gray-500 font-medium">Type</th>
                   <th className="text-left px-6 py-3 text-gray-500 font-medium">Status</th>
                   <th className="text-left px-6 py-3 text-gray-500 font-medium">Actions</th>
@@ -118,18 +221,32 @@ export default function AdminPropertiesPage() {
                   <tr key={p.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={p.cover_image}
-                          alt={p.title}
-                          className="w-12 h-10 rounded-lg object-cover flex-shrink-0"
-                        />
+                        {p.cover_image ? (
+                          <img
+                            src={p.cover_image}
+                            alt={p.title}
+                            className="w-12 h-10 rounded-lg object-cover flex-shrink-0"
+                          />
+                        ) : (
+                          <div className="w-12 h-10 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ backgroundColor: "#f0f0f0" }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9DB8A8" strokeWidth="2">
+                              <rect x="3" y="3" width="18" height="18" rx="2"/>
+                              <circle cx="8.5" cy="8.5" r="1.5"/>
+                              <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                          </div>
+                        )}
                         <div>
                           <p className="font-medium" style={{ color: "#1B3A2D" }}>{p.title}</p>
-                          <p className="text-gray-400 text-xs">{p.property_type}</p>
+                          <p className="text-gray-400 text-xs capitalize">{p.property_type}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">{p.location}</td>
+                    <td className="px-6 py-4 text-gray-500">{p.location || "—"}</td>
+                    <td className="px-6 py-4">
+                      <p className="text-gray-500 text-sm">{p.state || "—"}</p>
+                      <p className="text-gray-400 text-xs">{p.country || "—"}</p>
+                    </td>
                     <td className="px-6 py-4 text-gray-500 capitalize">{p.type}</td>
                     <td className="px-6 py-4">
                       <span

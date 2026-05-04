@@ -1,12 +1,26 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+
+const EyeIcon = ({ open }) => open ? (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+) : (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+    <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+    <line x1="1" y1="1" x2="23" y2="23"/>
+  </svg>
+);
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -15,10 +29,7 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError("Invalid email or password. Please try again.");
@@ -33,22 +44,15 @@ export default function Login() {
     <div className="min-h-screen flex" style={{ backgroundColor: "#F5F5F5" }}>
 
       {/* Left panel */}
-      <div
-        className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12"
-        style={{ backgroundColor: "#1B3A2D" }}
-      >
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12" style={{ backgroundColor: "#1B3A2D" }}>
         <div className="flex items-center gap-3">
           <div className="w-2 h-8 rounded-full" style={{ backgroundColor: "#F5A623" }} />
-          <span className="text-white text-xl font-semibold tracking-wide">
-            Blaze Horizon Realty
-          </span>
+          <span className="text-white text-xl font-semibold tracking-wide">Blaze Horizon Realty</span>
         </div>
         <div>
           <h1 className="text-white text-5xl font-bold leading-tight mb-6">
-            Manage your
-            <br />
-            <span style={{ color: "#F5A623" }}>properties</span>
-            <br />
+            Manage your<br />
+            <span style={{ color: "#F5A623" }}>properties</span><br />
             with ease.
           </h1>
           <p style={{ color: "#9DB8A8" }} className="text-lg leading-relaxed">
@@ -73,15 +77,11 @@ export default function Login() {
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-10 lg:hidden">
             <div className="w-2 h-8 rounded-full" style={{ backgroundColor: "#F5A623" }} />
-            <span className="text-xl font-semibold" style={{ color: "#1B3A2D" }}>
-              Blaze Horizon Realty
-            </span>
+            <span className="text-xl font-semibold" style={{ color: "#1B3A2D" }}>Blaze Horizon Realty</span>
           </div>
 
           <div className="mb-8">
-            <h2 className="text-3xl font-bold mb-2" style={{ color: "#1B3A2D" }}>
-              Welcome back
-            </h2>
+            <h2 className="text-3xl font-bold mb-2" style={{ color: "#1B3A2D" }}>Welcome back</h2>
             <p className="text-gray-500">Sign in to your admin account</p>
           </div>
 
@@ -105,22 +105,27 @@ export default function Login() {
                 <label className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>
                   Password
                 </label>
-                <Link
-                  to="/admin/forgot-password"
-                  className="text-xs font-medium hover:opacity-70 transition-opacity"
-                  style={{ color: "#F5A623" }}
-                >
+                <Link to="/admin/forgot-password" className="text-xs font-medium hover:opacity-70 transition-opacity" style={{ color: "#F5A623" }}>
                   Forgot password?
                 </Link>
               </div>
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full h-12 rounded-xl border border-gray-200 bg-gray-50 px-3 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-green-800"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((p) => !p)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <EyeIcon open={showPassword} />
+                </button>
+              </div>
             </div>
 
             {error && (
