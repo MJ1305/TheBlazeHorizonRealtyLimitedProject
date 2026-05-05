@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AdminLayout from "../adminPages/adminsidebar";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -37,17 +37,26 @@ const Field = ({ label, children }) => (
 const styledInput = "w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-800 bg-gray-50";
 const styledSelect = "w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm h-11 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-800";
 
+const emptyForm = {
+  title: "", slug: "", description: "", location: "", full_address: "",
+  state: "", country: "Nigeria", property_type: "apartment", type: "sale",
+  status: "available", bedrooms: "", bathrooms: "", area_sqft: "",
+  year_built: "", parking: "", amenities: "", price: "", show_price: false,
+  cover_image: "", images: [],
+};
+
 export default function AddPropertyPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
-  const [form, setForm] = useState({
-    title: "", slug: "", description: "", location: "", full_address: "",
-    state: "", country: "Nigeria", property_type: "apartment", type: "sale",
-    status: "available", bedrooms: "", bathrooms: "", area_sqft: "",
-    year_built: "", parking: "", amenities: "", price: "", show_price: false,
-    cover_image: "", images: [],
-  });
+  const [draftSaved, setDraftSaved] = useState(false);
+  const [form, setForm] = useState(emptyForm);
+
+  // Always tracks latest form value — prevents stale closure in interval
+  const formRef = useRef(form);
+  useEffect(() => {
+    formRef.current = form;
+  }, [form]);
 
   useEffect(() => {
     const loadDraft = async () => {
@@ -58,31 +67,38 @@ export default function AddPropertyPage() {
           .select("draft_data")
           .eq("admin_id", user.id)
           .single();
-        if (data?.draft_data) setForm(data.draft_data);
+
+        // Only restore if draft has real content
+        if (data?.draft_data && data.draft_data.title?.trim()) {
+          setForm(data.draft_data);
+        }
       } catch (err) {
         console.log("No draft found:", err);
       }
     };
+
     loadDraft();
 
-    const interval = setInterval(saveDraft, 30000);
+    // Auto-save every 30 seconds using ref so form is never stale
+    const interval = setInterval(async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!formRef.current.title?.trim()) return; // don't save empty drafts
+        await supabase.from("property_drafts").upsert({
+          admin_id: user.id,
+          draft_data: formRef.current,
+          last_saved_at: new Date().toISOString(),
+        }, { onConflict: "admin_id" });
+        setDraftSaved(true);
+        setTimeout(() => setDraftSaved(false), 3000);
+      } catch (err) {
+        console.log("Draft save failed:", err);
+      }
+    }, 30000);
+
     return () => clearInterval(interval);
   }, []);
 
-  const saveDraft = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from("property_drafts").upsert({
-        admin_id: user.id,
-        draft_data: form,
-        last_saved_at: new Date().toISOString(),
-      }, { onConflict: "admin_id" });
-    } catch (err) {
-      console.log("Draft save failed:", err);
-    }
-  };
-
-  // FIX 3 — prevent negative or zero values for number fields
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "number" && value !== "" && parseInt(value) < 1) return;
@@ -104,22 +120,16 @@ export default function AddPropertyPage() {
     return json.secure_url;
   };
 
-  // FIX 1 & 2 — 4 image limit + better upload feedback
   const handleImageUpload = async (e, isCover = false) => {
     const files = Array.from(e.target.files);
-
     if (!isCover) {
       const remaining = 4 - form.images.length;
-      if (remaining <= 0) {
-        alert("Maximum of 4 gallery images allowed.");
-        return;
-      }
+      if (remaining <= 0) { alert("Maximum of 4 gallery images allowed."); return; }
       if (files.length > remaining) {
         alert(`You can only add ${remaining} more image(s). Only the first ${remaining} will be uploaded.`);
         files.splice(remaining);
       }
     }
-
     setUploadingImages(true);
     try {
       const urls = await Promise.all(files.map(uploadToCloudinary));
@@ -134,7 +144,6 @@ export default function AddPropertyPage() {
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-
       const payload = {
         ...form,
         amenities: form.amenities.split(",").map((a) => a.trim()).filter(Boolean),
@@ -144,15 +153,8 @@ export default function AddPropertyPage() {
         created_by: user.id,
         updated_by: user.id,
       };
-
       const { error } = await supabase.from("properties").insert([payload]);
-
-      if (error) {
-        alert("Error saving property: " + error.message);
-        setLoading(false);
-        return;
-      }
-
+      if (error) { alert("Error saving property: " + error.message); setLoading(false); return; }
       await supabase.from("property_drafts").delete().eq("admin_id", user.id);
       navigate("/admin/properties");
     } catch (err) {
@@ -170,15 +172,21 @@ export default function AddPropertyPage() {
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <button onClick={() => navigate("/admin/properties")} className="text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1">
-                ← Properties
-              </button>
-            </div>
+            <button onClick={() => navigate("/admin/properties")} className="text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1 mb-1">
+              ← Properties
+            </button>
             <h1 className="text-2xl font-bold" style={{ color: "#1B3A2D" }}>Add New Property</h1>
             <p className="text-gray-400 text-sm mt-0.5">Fill in the details to create a new listing</p>
           </div>
           <div className="hidden md:flex items-center gap-2">
+            {draftSaved && (
+              <span className="text-xs text-gray-400 flex items-center gap-1 mr-2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1B3A2D" strokeWidth="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Draft saved
+              </span>
+            )}
             {["Basic Info", "Location", "Details", "Pricing", "Images"].map((s, i) => (
               <div key={s} className="flex items-center gap-1">
                 <div className="px-3 py-1 rounded-full text-xs font-medium" style={{ backgroundColor: "#1B3A2D", color: "#F5A623" }}>
@@ -253,7 +261,6 @@ export default function AddPropertyPage() {
             title="Property Details"
             subtitle="Rooms, size and amenities"
           >
-            {/* FIX 3 — min="1" on number fields */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "Bedrooms", name: "bedrooms", placeholder: "4", type: "number" },
@@ -348,7 +355,6 @@ export default function AddPropertyPage() {
                   ({form.images.length}/4 uploaded)
                 </span>
               </p>
-              {/* FIX 2 — disabled when 4 images reached */}
               <label
                 className={`flex flex-col items-center justify-center w-full h-24 rounded-xl border-2 border-dashed bg-gray-50 transition-colors
                   ${form.images.length >= 4 ? "border-gray-100 cursor-not-allowed opacity-50" : "border-gray-200 cursor-pointer hover:border-green-800"}`}
@@ -369,7 +375,6 @@ export default function AddPropertyPage() {
                 />
               </label>
 
-              {/* FIX 1 — better upload feedback */}
               {uploadingImages && (
                 <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "#f0f9f4" }}>
                   <svg className="animate-spin w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none">
@@ -405,13 +410,25 @@ export default function AddPropertyPage() {
           <div className="sticky bottom-0 bg-white border-t border-gray-200 rounded-xl p-4 flex items-center justify-between shadow-lg">
             <p className="text-sm text-gray-400">All required fields must be filled before saving.</p>
             <div className="flex gap-3">
-              <Button type="button" variant="outline" onClick={() => navigate("/admin/properties")} className="rounded-xl">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={async () => {
+                  const { data: { user } } = await supabase.auth.getUser();
+                  await supabase.from("property_drafts").delete().eq("admin_id", user.id);
+                  navigate("/admin/properties");
+                }}
+                className="rounded-xl"
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={loading} className="px-8 rounded-xl text-white font-semibold hover:opacity-90" style={{ backgroundColor: "#1B3A2D" }}>
                 {loading ? (
                   <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
                     Saving...
                   </span>
                 ) : "Save Property"}

@@ -1,103 +1,130 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { properties } from '../data/property'
+import { supabase } from '@/lib/supabase'
 
 const PropertyDetails = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
   const [selectedImage, setSelectedImage] = useState(0)
   const [property, setProperty] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const found = properties.find((p) => p.slug === slug)
-    setProperty(found || null)
-  }, [slug])
+    const fetchProperty = async () => {
+      setLoading(true)
 
-  // Redirect invalid slugs to 404
-  useEffect(() => {
-    if (property === null) {
-      const exists = properties.some(p => p.slug === slug)
-      if (!exists) {
+      // Step 1: Try Supabase first
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('slug', slug)
+        .single()
+
+      if (data && !error) {
+        // Normalize Supabase fields to match what the template expects
+        const allImages = []
+        if (data.cover_image) allImages.push(data.cover_image)
+        if (Array.isArray(data.images)) allImages.push(...data.images)
+
+        setProperty({
+          ...data,
+          beds: data.bedrooms,
+          baths: data.bathrooms,
+          sqft: data.area_sqft || '—',
+          yearBuilt: data.year_built || '—',
+          fullAddress: data.full_address,
+          images: allImages.length > 0 ? allImages : [data.cover_image].filter(Boolean),
+          amenities: Array.isArray(data.amenities) ? data.amenities : [],
+        })
+        setLoading(false)
+        return
+      }
+
+      // Step 2: Fall back to static data
+      const found = properties.find((p) => p.slug === slug)
+      if (found) {
+        setProperty(found)
+      } else {
         navigate('/404')
       }
+      setLoading(false)
     }
-  }, [property, slug, navigate])
+
+    fetchProperty()
+  }, [slug])
 
   const handleBookTour = () => {
     navigate('/book-tour', { state: { property } })
   }
 
-  if (!property) {
+  if (loading) {
     return (
       <div className="min-h-screen pt-32 flex items-center justify-center px-4">
-        <div className="animate-pulse text-center">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-brand-yellow border-t-transparent rounded-full animate-spin mx-auto mb-3 sm:mb-4"></div>
+        <div className="text-center">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-[#fa8e12] border-t-transparent rounded-full animate-spin mx-auto mb-3 sm:mb-4"></div>
           <p className="text-gray-500 text-xs sm:text-sm">Loading property details...</p>
         </div>
       </div>
     )
   }
 
+  if (!property) return null
+
   return (
     <div className="bg-gray-50 min-h-screen pt-14 sm:pt-16 md:pt-20 lg:pt-24">
       {/* Hero Section with Main Image */}
       <div className="relative bg-black">
-        {/* Main Image Container */}
         <div className="relative h-[45vh] sm:h-[50vh] md:h-[55vh] lg:h-[60vh] xl:h-[65vh]">
           <img
             src={property.images[selectedImage]}
             alt={property.title}
             className="w-full h-full object-cover"
           />
-          {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-          
-          {/* Property Type Badge - Floating on image */}
+
+          {/* Property Type Badge */}
           <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6 z-10">
             <span className={`inline-block px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-full text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs font-black uppercase tracking-widest shadow-lg ${
-              property.type === 'buy' 
-                ? 'bg-[#fa8e12] text-[#03302b]' 
+              property.type === 'buy' || property.type === 'sale'
+                ? 'bg-[#fa8e12] text-[#03302b]'
                 : 'bg-[#03302b] text-white'
             }`}>
-              {property.type === 'buy' ? 'FOR SALE' : 'FOR RENT'}
+              {property.type === 'buy' || property.type === 'sale' ? 'FOR SALE' : 'FOR RENT'}
             </span>
           </div>
         </div>
 
-        {/* Thumbnail Gallery - Scrollable on mobile */}
-        <div className="absolute -bottom-5 sm:-bottom-6 left-0 right-0 z-20">
-          <div className="flex justify-center items-center">
-            <div className="flex gap-1.5 sm:gap-2 md:gap-3 overflow-x-auto px-3 sm:px-4 pb-2 max-w-full scrollbar-thin">
-              {property.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedImage(idx)}
-                  className={`flex-shrink-0 overflow-hidden rounded-md sm:rounded-lg border-2 transition-all duration-300 hover:scale-105 ${
-                    selectedImage === idx
-                      ? 'border-[#fa8e12] scale-105 shadow-lg'
-                      : 'border-white/60 hover:border-[#fa8e12]/50'
-                  }`}
-                  style={{ width: 'clamp(45px, 15vw, 70px)', height: 'clamp(45px, 15vw, 70px)' }}
-                >
-                  <img 
-                    src={img} 
-                    className="w-full h-full object-cover" 
-                    alt={`Thumbnail ${idx + 1}`}
-                  />
-                </button>
-              ))}
+        {/* Thumbnail Gallery */}
+        {property.images.length > 1 && (
+          <div className="absolute -bottom-5 sm:-bottom-6 left-0 right-0 z-20">
+            <div className="flex justify-center items-center">
+              <div className="flex gap-1.5 sm:gap-2 md:gap-3 overflow-x-auto px-3 sm:px-4 pb-2 max-w-full scrollbar-thin">
+                {property.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={`flex-shrink-0 overflow-hidden rounded-md sm:rounded-lg border-2 transition-all duration-300 hover:scale-105 ${
+                      selectedImage === idx
+                        ? 'border-[#fa8e12] scale-105 shadow-lg'
+                        : 'border-white/60 hover:border-[#fa8e12]/50'
+                    }`}
+                    style={{ width: 'clamp(45px, 15vw, 70px)', height: 'clamp(45px, 15vw, 70px)' }}
+                  >
+                    <img src={img} className="w-full h-full object-cover" alt={`Thumbnail ${idx + 1}`} />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Content Section */}
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 mt-10 sm:mt-12 md:mt-16 lg:mt-20 pb-10 sm:pb-12 md:pb-16 lg:pb-20">
         <div className="bg-white rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl overflow-hidden">
-          
-          {/* Main Content Padding */}
           <div className="p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10">
-            
+
             {/* Title & Location */}
             <div className="mb-4 sm:mb-5 md:mb-6 lg:mb-8">
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-[#03302b] leading-tight mb-2 sm:mb-2.5 md:mb-3">
@@ -112,57 +139,35 @@ const PropertyDetails = () => {
               </div>
             </div>
 
-            {/* Key Specifications - Responsive Grid */}
+            {/* Key Specifications */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 py-3 sm:py-4 md:py-5 lg:py-6 border-y border-gray-100">
-              <div className="text-center sm:text-left">
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-400 mb-1">
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                  <span className="text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-wider">Bedrooms</span>
+              {[
+                { label: "Bedrooms", value: property.beds, icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
+                { label: "Bathrooms", value: property.baths, icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" },
+                { label: "Square Feet", value: property.sqft, icon: "M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" },
+                { label: "Year Built", value: property.yearBuilt, icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+              ].map((spec) => (
+                <div key={spec.label} className="text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-400 mb-1">
+                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={spec.icon} />
+                    </svg>
+                    <span className="text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-wider">{spec.label}</span>
+                  </div>
+                  <p className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-[#03302b]">{spec.value}</p>
                 </div>
-                <p className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-[#03302b]">{property.beds}</p>
-              </div>
-              <div className="text-center sm:text-left">
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-400 mb-1">
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  <span className="text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-wider">Bathrooms</span>
-                </div>
-                <p className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-[#03302b]">{property.baths}</p>
-              </div>
-              <div className="text-center sm:text-left">
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-400 mb-1">
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                  </svg>
-                  <span className="text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-wider">Square Feet</span>
-                </div>
-                <p className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-[#03302b]">{property.sqft.toLocaleString()}</p>
-              </div>
-              <div className="text-center sm:text-left">
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-400 mb-1">
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="text-[8px] sm:text-[9px] md:text-[10px] uppercase tracking-wider">Year Built</span>
-                </div>
-                <p className="font-black text-base sm:text-lg md:text-xl lg:text-2xl text-[#03302b]">{property.yearBuilt}</p>
-              </div>
+              ))}
             </div>
 
-            {/* Description Section */}
+            {/* Description */}
             <div className="mt-5 sm:mt-6 md:mt-7 lg:mt-8">
               <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-[#03302b] mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
                 <span className="text-sm sm:text-base">📋</span> Description
               </h2>
-              <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
-                {property.description}
-              </p>
+              <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">{property.description}</p>
             </div>
 
-            {/* Amenities Section */}
+            {/* Amenities */}
             {property.amenities && property.amenities.length > 0 && (
               <div className="mt-5 sm:mt-6 md:mt-7 lg:mt-8">
                 <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-[#03302b] mb-2 sm:mb-3 md:mb-4 flex items-center gap-1.5 sm:gap-2">
@@ -209,19 +214,10 @@ const PropertyDetails = () => {
         </div>
       </div>
 
-      {/* Custom Scrollbar Styles for Thumbnail Gallery */}
       <style jsx>{`
-        .scrollbar-thin::-webkit-scrollbar {
-          height: 4px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.3);
-          border-radius: 10px;
-        }
+        .scrollbar-thin::-webkit-scrollbar { height: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
       `}</style>
     </div>
   )

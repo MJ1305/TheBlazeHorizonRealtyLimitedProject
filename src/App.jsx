@@ -18,6 +18,7 @@ import AddPropertyPage from "./pages/adminPages/adminAddProperty";
 import AdminsPage from "./pages/adminPages/adminsPage";
 import EditPropertyPage from "./pages/adminPages/editPropertyPage";
 import AdminForgotPasswordPage from "./pages/adminPages/adminForgotPasswordPage";
+import AdminResetPasswordPage from "./pages/adminPages/adminResetPasswordPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       <Route path="/admin/admins" element={<AdminsPage />} />
       <Route path="/admin/properties/edit/:id" element={<EditPropertyPage />} />
       <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
+      <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
 
       {/* ── Public routes ── */}
       <Route

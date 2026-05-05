@@ -63,19 +63,9 @@ export default function AdminLayout({ children }) {
     const getAdmin = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { navigate("/admin/login"); return; }
-
-      const { data } = await supabase
-        .from("admins")
-        .select("*")
-        .eq("id", user.id)
-        .single();
+      const { data } = await supabase.from("admins").select("*").eq("id", user.id).single();
       setAdmin(data);
-
-      const { data: draft } = await supabase
-        .from("property_drafts")
-        .select("id")
-        .eq("admin_id", user.id)
-        .maybeSingle();
+      const { data: draft } = await supabase.from("property_drafts").select("id").eq("admin_id", user.id).maybeSingle();
       if (draft) setHasDraft(true);
     };
     getAdmin();
@@ -89,37 +79,33 @@ export default function AdminLayout({ children }) {
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: "#F5F5F5" }}>
 
-      {/* Force password change modal */}
       {admin?.must_change_password && (
-        <PasswordChangeModal
-          admin={admin}
-          onSuccess={() => setAdmin((prev) => ({ ...prev, must_change_password: false }))}
-        />
+        <PasswordChangeModal admin={admin} onSuccess={() => setAdmin((prev) => ({ ...prev, must_change_password: false }))} />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-50 w-56 sm:w-64 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-auto ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{ backgroundColor: "#1B3A2D" }}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-6 border-b border-white/10">
-          <div className="w-2 h-8 rounded-full" style={{ backgroundColor: "#F5A623" }} />
-          <div>
-            <p className="text-white font-semibold text-sm">Blaze Horizon Realty Limited</p>
-            <p className="text-xs" style={{ color: "#9DB8A8" }}>Admin Portal</p>
+        <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-5 sm:py-6 border-b border-white/10">
+          <div className="w-1.5 sm:w-2 h-7 sm:h-8 rounded-full flex-shrink-0" style={{ backgroundColor: "#F5A623" }} />
+          <div className="min-w-0">
+            <p className="text-white font-semibold text-xs sm:text-sm truncate">Blaze Horizon Realty Limited</p>
+            <p className="text-[10px] sm:text-xs" style={{ color: "#9DB8A8" }}>Admin Portal</p>
           </div>
         </div>
 
-        {/* Unfinished draft banner */}
+        {/* Draft banner */}
         {hasDraft && (
           <Link
             to="/admin/properties/new"
             onClick={() => setSidebarOpen(false)}
-            className="mx-4 mt-4 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
+            className="mx-3 sm:mx-4 mt-3 sm:mt-4 flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] sm:text-xs font-medium"
             style={{ backgroundColor: "#F5A623", color: "#1B3A2D" }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
               <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
             </svg>
@@ -127,8 +113,8 @@ export default function AdminLayout({ children }) {
           </Link>
         )}
 
-        {/* Nav links */}
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        {/* Nav */}
+        <nav className="flex-1 px-3 sm:px-4 py-5 sm:py-6 space-y-1">
           {navItems.map((item) => {
             if (item.superAdminOnly && admin?.role !== "super_admin") return null;
             const active = location.pathname === item.path;
@@ -137,11 +123,8 @@ export default function AdminLayout({ children }) {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all"
-                style={{
-                  backgroundColor: active ? "#F5A623" : "transparent",
-                  color: active ? "#1B3A2D" : "#9DB8A8",
-                }}
+                className="flex items-center gap-2 sm:gap-3 px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all"
+                style={{ backgroundColor: active ? "#F5A623" : "transparent", color: active ? "#1B3A2D" : "#9DB8A8" }}
               >
                 {item.icon}
                 {item.label}
@@ -151,18 +134,18 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* Admin info + logout */}
-        <div className="px-4 py-4 border-t border-white/10">
+        <div className="px-3 sm:px-4 py-3 sm:py-4 border-t border-white/10">
           {admin && (
-            <div className="flex items-center gap-3 mb-3 px-3">
+            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 px-2 sm:px-3">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0"
                 style={{ backgroundColor: "#F5A623", color: "#1B3A2D" }}
               >
                 {admin.display_name?.[0]?.toUpperCase()}
               </div>
               <div className="min-w-0">
-                <p className="text-white text-sm font-medium truncate">{admin.display_name}</p>
-                <p className="text-xs truncate" style={{ color: "#9DB8A8" }}>
+                <p className="text-white text-xs sm:text-sm font-medium truncate">{admin.display_name}</p>
+                <p className="text-[10px] sm:text-xs truncate" style={{ color: "#9DB8A8" }}>
                   {admin.role === "super_admin" ? "Super Admin" : "Admin"}
                 </p>
               </div>
@@ -170,10 +153,10 @@ export default function AdminLayout({ children }) {
           )}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all"
+            className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all"
             style={{ color: "#9DB8A8" }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
               <polyline points="16 17 21 12 16 7"/>
               <line x1="21" y1="12" x2="9" y2="12"/>
@@ -188,30 +171,26 @@ export default function AdminLayout({ children }) {
         <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Main content area */}
+      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
-          <button
-            className="lg:hidden p-2 rounded-lg"
-            style={{ color: "#1B3A2D" }}
-            onClick={() => setSidebarOpen(true)}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <header className="sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-white border-b border-gray-200">
+          <button className="lg:hidden p-1.5 sm:p-2 rounded-lg" style={{ color: "#1B3A2D" }} onClick={() => setSidebarOpen(true)}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"/>
               <line x1="3" y1="12" x2="21" y2="12"/>
               <line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500" />
-            <span className="text-sm text-gray-500">System online</span>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500" />
+            <span className="text-xs sm:text-sm text-gray-500">System online</span>
           </div>
         </header>
 
-        {/* page content */}
-        <main className="flex-1 p-6">{children}</main>
+        {/* Page content */}
+        <main className="flex-1 p-3 sm:p-6">{children}</main>
       </div>
     </div>
   );
