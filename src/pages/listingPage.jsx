@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import PropertyCard from "../components/Shared/propertyCard";
+import PropertyCard from "../Components/Shared/propertyCard";
 import { supabase } from "@/lib/supabase";
 
 const Listing = () => {

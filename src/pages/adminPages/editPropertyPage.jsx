@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import AdminLayout from "./adminsidebar";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
-import PasswordChangeModal from "../../components/ui/passwordChangeModal";
+import PasswordChangeModal from "../../Components/ui/passwordChangeModal";
 
 const navItems = [
   {

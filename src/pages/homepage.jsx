@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link as ScrollLink } from 'react-scroll'
 import { useNavigate } from 'react-router-dom'
-import PropertyCard from '../components/Shared/propertyCard'
+import PropertyCard from '../Components/Shared/propertyCard'
 import { supabase } from '@/lib/supabase'
 
 const HomePage = () => {

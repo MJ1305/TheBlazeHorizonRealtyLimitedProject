@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminLayout from "../adminPages/adminsidebar";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 import { supabase } from "@/lib/supabase";
 import emailjs from "@emailjs/browser";
 
