@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import AdminLayout from "../adminPages/adminsidebar";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/cComponents/ui/input";
+import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 import { supabase } from "@/lib/supabase";
 
