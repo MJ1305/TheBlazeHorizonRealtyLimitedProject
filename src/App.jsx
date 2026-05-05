@@ -7,8 +7,8 @@ import PropertyDetails from "./pages/propertyDetails";
 import BookTour from "./pages/bookTourPage";
 import NotFound from "./pages/notFoundPage";
 import ComparePage from "./pages/comparePropertiesPage";
-import Navigation from "./components/Shared/navbar";
-import ScrollToTop from "./components/functions/scrollToTop";
+import Navigation from "./Components/Shared/navbar";
+import ScrollToTop from "./Components/functions/scrollToTop";
 
 //Admins
 import AdminLogin from "./pages/adminPages/adminLoginPage";
