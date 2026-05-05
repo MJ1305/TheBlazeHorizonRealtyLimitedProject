@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from "react-router-dom"
-import Logo from "../Images/imglogo.jpeg"
+import Logo from "../../assets/images/imglogo.jpeg"
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -71,7 +71,7 @@ const Navigation = () => {
             className="text-2xl font-black tracking-tight text-white flex items-center"
           >
             <img 
-              className='w-[5.5rem] sm:w-[6rem] md:w-[7rem] lg:w-[8rem] h-[2.5rem] sm:h-[2.8rem] md:h-[3rem] lg:h-[3.5rem] object-contain' 
+              className=' w-[5.5rem] sm:w-[6rem] md:w-[7rem] lg:w-[8rem] h-[2.5rem] sm:h-[2.8rem] md:h-[3rem] lg:h-[3.5rem] object-contain' 
               src={Logo} 
               alt="logo" 
             />

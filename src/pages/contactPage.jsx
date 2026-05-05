@@ -131,18 +131,17 @@ const ContactPage = () => {
             </p>
             
             <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8">
-              {/* Corporate Office */}
-              <button className="flex items-start text-left w-full group" onClick={handleAddressClick}>
+              {/* Email Us */}
+              <button className="flex items-start w-full group" onClick={() => handleEmailClick('blazehorizonrealty@gmail.com', 'Property Inquiry')}>
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-2 sm:mr-3 md:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
                   <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Corporate Office</h4>
-                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm leading-relaxed hover:text-brand-yellow transition-colors">
-                    Level 12, Kingdom Towers, <br /> Lekki Phase 1, Lagos, Nigeria.
+                  <h4 className="font-black text-start text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Email Us</h4>
+                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm group-hover:text-brand-yellow transition-colors">
+                    blazehorizonrealty@gmail.com
                   </p>
                 </div>
               </button>
@@ -164,20 +163,22 @@ const ContactPage = () => {
                 </div>
               </div>
 
-              {/* Email Us */}
-              <button className="flex items-start w-full group" onClick={() => handleEmailClick('blazehorizonrealty@gmail.com', 'Property Inquiry')}>
+                            {/* Corporate Office */}
+              <button className="flex items-start text-left w-full group" onClick={handleAddressClick}>
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-50 rounded-full flex items-center justify-center mr-2 sm:mr-3 md:mr-5 flex-shrink-0 group-hover:bg-brand-yellow/10 transition-colors">
                   <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-brand-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Email Us</h4>
-                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm group-hover:text-brand-yellow transition-colors">
-                    blazehorizonrealty@gmail.com
+                  <h4 className="font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest mb-1 sm:mb-2 text-gray-900">Corporate Office</h4>
+                  <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm leading-relaxed hover:text-brand-yellow transition-colors">
+                    Level 12, Kingdom Towers, <br /> Lekki Phase 1, Lagos, Nigeria.
                   </p>
                 </div>
               </button>
+              
             </div>
 
             {/* Map Placeholder */}
