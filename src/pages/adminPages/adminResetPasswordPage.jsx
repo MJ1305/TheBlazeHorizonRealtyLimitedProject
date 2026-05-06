@@ -201,7 +201,7 @@ export default function AdminResetPasswordPage() {
               </form>
 
               <div className="text-center mt-5 sm:mt-6">
-                <Link to="/admin/login" className="text-xs sm:text-sm font-medium hover:opacity-70" style={{ color: "#1B3A2D" }}>← Back to Login</Link>
+                <Link to="/admin" className="text-xs sm:text-sm font-medium hover:opacity-70" style={{ color: "#1B3A2D" }}>← Back to Login</Link>
               </div>
             </div>
           )}

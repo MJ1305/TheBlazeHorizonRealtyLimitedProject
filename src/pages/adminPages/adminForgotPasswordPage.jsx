@@ -149,7 +149,7 @@ export default function AdminForgotPasswordPage() {
 
               <div className="text-center mt-5 sm:mt-6">
                 <Link
-                  to="/admin/login"
+                  to="/admin"
                   className="text-xs sm:text-sm font-medium hover:opacity-70 transition-opacity"
                   style={{ color: "#1B3A2D" }}
                 >

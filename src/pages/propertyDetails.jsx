@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { properties } from '../data/property'
 import { supabase } from '@/lib/supabase'
 
 const PropertyDetails = () => {
