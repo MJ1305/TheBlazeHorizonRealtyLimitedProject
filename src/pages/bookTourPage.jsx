@@ -54,33 +54,25 @@ const BookTour = () => {
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
         access_key: import.meta.env.VITE_WEB3FORMS_TOUR_TEMPLATE_ID,
         subject: `Tour Request: ${formData.propertyName}`,
         from_name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         message: `
-        Dear Blaze Horizon Realty Team,
+        To Blaze Horizon Realty Team,
 
-        I hope this message finds you well. My name is ${formData.firstName} ${formData.lastName}, and I am writing to express my interest in scheduling a property tour at your earliest convenience.
+        A user with the name ${formData.firstName} ${formData.lastName} would like to schedule a tour concerning the property "${formData.propertyName}", located at ${formData.propertyAddress}, ${formData.propertyLocation}. The requested visit is scheduled for ${formData.preferredDate} at ${formData.preferredTime}.
 
-        I came across the listing for ${formData.propertyName}, located at ${formData.propertyAddress}, ${formData.propertyLocation}, and I would love the opportunity to view the property in person.
+        ${formData.message ? `The user has also left the following note: "${formData.message}"` : 'No additional notes were provided.'}
 
-        My preferred date and time for the visit is ${formData.preferredDate} at ${formData.preferredTime}. Please feel free to reach out to confirm or suggest an alternative that works best for your team.
+        Contact Details:
+          - Email: ${formData.email}
+          - Phone: ${formData.phone}
 
-        ${formData.message ? `Additional Notes:\n${formData.message}\n` : ''}
-        Below are my contact details for your reference:
+        Please reach out to the user at your earliest convenience to confirm their appointment.
 
-          - Full Name:  ${formData.firstName} ${formData.lastName}
-          - Email:      ${formData.email}
-          - Phone:      ${formData.phone}
-
-        I look forward to hearing from you and hope to arrange a visit soon.
-
-        Warm regards,
-        ${formData.firstName} ${formData.lastName}
+        — Blaze Horizon Realty Booking System
           `.trim()
         }),
         to_email: 'blazehorizonrealty@gmail.com',
