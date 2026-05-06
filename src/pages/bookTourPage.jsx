@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import emailjs from '@emailjs/browser'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const BookTour = () => {
@@ -53,39 +52,59 @@ const BookTour = () => {
 
     setIsSubmitting(true)
 
-    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TOUR_TEMPLATE_ID
-    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-    const templateParams = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-      phone: formData.phone,
-      property_name: formData.propertyName,
-      property_location: formData.propertyLocation,
-      property_address: formData.propertyAddress,
-      preferred_date: formData.preferredDate,
-      preferred_time: formData.preferredTime,
-      message: formData.message,
-      to_email: 'blazehorizonrealty@gmail.com',
-      intreast: `${formData.propertyName}`
-    }
-
     try {
-      const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
-      console.log('Tour request sent successfully:', response)
-      setFormStatus({
-        type: 'success',
-        message: '✓ Tour request sent successfully! We will contact you within 24 hours to confirm your appointment.'
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+        access_key: import.meta.env.VITE_WEB3FORMS_TOUR_TEMPLATE_ID,
+        subject: `Tour Request: ${formData.propertyName}`,
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        message: `
+        Dear Blaze Horizon Realty Team,
+
+        I hope this message finds you well. My name is ${formData.firstName} ${formData.lastName}, and I am writing to express my interest in scheduling a property tour at your earliest convenience.
+
+        I came across the listing for ${formData.propertyName}, located at ${formData.propertyAddress}, ${formData.propertyLocation}, and I would love the opportunity to view the property in person.
+
+        My preferred date and time for the visit is ${formData.preferredDate} at ${formData.preferredTime}. Please feel free to reach out to confirm or suggest an alternative that works best for your team.
+
+        ${formData.message ? `Additional Notes:\n${formData.message}\n` : ''}
+        Below are my contact details for your reference:
+
+          - Full Name:  ${formData.firstName} ${formData.lastName}
+          - Email:      ${formData.email}
+          - Phone:      ${formData.phone}
+
+        I look forward to hearing from you and hope to arrange a visit soon.
+
+        Warm regards,
+        ${formData.firstName} ${formData.lastName}
+          `.trim()
+        }),
+        to_email: 'blazehorizonrealty@gmail.com',
       })
-      setFormData(prev => ({
-        firstName: '', lastName: '', email: '', phone: '',
-        propertyName: prev.propertyName,
-        propertyLocation: prev.propertyLocation,
-        propertyAddress: prev.propertyAddress,
-        preferredDate: '', preferredTime: '', message: ''
-      }))
-      setTimeout(() => setFormStatus({ type: '', message: '' }), 5000)
+
+      const result = await response.json()
+
+      if (result.success) {
+        console.log('Tour request sent successfully:', result)
+        setFormStatus({
+          type: 'success',
+          message: '✓ Tour request sent successfully! We will contact you within 24 hours to confirm your appointment.'
+        })
+        setFormData(prev => ({
+          firstName: '', lastName: '', email: '', phone: '',
+          propertyName: prev.propertyName,
+          propertyLocation: prev.propertyLocation,
+          propertyAddress: prev.propertyAddress,
+          preferredDate: '', preferredTime: '', message: ''
+        }))
+        setTimeout(() => setFormStatus({ type: '', message: '' }), 5000)
+      } else {
+        throw new Error(result.message || 'Submission failed')
+      }
     } catch (error) {
       console.error('Error sending tour request:', error)
       setFormStatus({
@@ -108,7 +127,6 @@ const BookTour = () => {
   maxDate.setMonth(maxDate.getMonth() + 3)
   const maxDateStr = maxDate.toISOString().split('T')[0]
 
-  // Get the correct image from Supabase property
   const propertyImage = selectedProperty?.cover_image
     || (Array.isArray(selectedProperty?.images) && selectedProperty.images[0])
     || null
@@ -148,15 +166,9 @@ const BookTour = () => {
             </div>
             <div className="p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-
-                {/* Property Image */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-xl overflow-hidden flex-shrink-0 shadow-md bg-gray-100">
                   {propertyImage ? (
-                    <img
-                      src={propertyImage}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                      alt={selectedProperty.title}
-                    />
+                    <img src={propertyImage} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt={selectedProperty.title} />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,24 +179,16 @@ const BookTour = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Property Details */}
                 <div className="flex-grow text-center sm:text-left">
-                  <h3 className="font-black text-base sm:text-lg md:text-xl text-[#03302b] mb-1">
-                    {selectedProperty.title}
-                  </h3>
+                  <h3 className="font-black text-base sm:text-lg md:text-xl text-[#03302b] mb-1">{selectedProperty.title}</h3>
                   <div className="flex items-center justify-center sm:justify-start gap-1 text-gray-500 text-[11px] sm:text-xs md:text-sm mb-2">
                     <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     </svg>
                     <span>{selectedProperty.location}</span>
                   </div>
-                  <p className="text-gray-400 text-[9px] sm:text-[10px] md:text-xs break-words">
-                    📍 {selectedProperty.full_address}
-                  </p>
+                  <p className="text-gray-400 text-[9px] sm:text-[10px] md:text-xs break-words">📍 {selectedProperty.full_address}</p>
                 </div>
-
-                {/* Back Button */}
                 <button
                   onClick={() => window.history.length > 1 ? navigate(-1) : navigate('/')}
                   className="flex items-center gap-1.5 bg-[#fa8e12] text-[#033630] px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-xl font-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs uppercase tracking-widest transition-all duration-500 hover:scale-95 flex-shrink-0 mt-2 sm:mt-0 shadow-md hover:shadow-lg"
