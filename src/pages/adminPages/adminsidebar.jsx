@@ -151,9 +151,25 @@ export default function AdminLayout({ children }) {
               </div>
             </div>
           )}
+
+          {/* Back to Website */}
+          <Link
+            to="/"
+            onClick={() => setSidebarOpen(false)}
+            className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all hover:opacity-80"
+            style={{ color: "#9DB8A8" }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Back to Website
+          </Link>
+
+          {/* Sign out */}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all"
+            className="w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all hover:opacity-80"
             style={{ color: "#9DB8A8" }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

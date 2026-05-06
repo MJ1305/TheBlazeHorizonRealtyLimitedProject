@@ -23,10 +23,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  //My Brain Wan Tear......
-  // console.log("URL:", import.meta.env.VITE_SUPABASE_URL);
-  // console.log("KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -48,10 +44,12 @@ export default function Login() {
         className="hidden lg:flex lg:w-1/2 flex-col justify-between p-8 xl:p-12"
         style={{ backgroundColor: "#1B3A2D" }}
       >
-        <div className="flex items-center gap-3">
+        {/* Desktop logo — clicks back to home */}
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity w-fit">
           <div className="w-2 h-8 rounded-full" style={{ backgroundColor: "#F5A623" }} />
           <span className="text-white text-lg xl:text-xl font-semibold tracking-wide">Blaze Horizon Realty</span>
-        </div>
+        </Link>
+
         <div>
           <h1 className="text-white text-4xl xl:text-5xl font-bold leading-tight mb-4 xl:mb-6">
             Manage your<br />
@@ -63,6 +61,7 @@ export default function Login() {
             property status, and more — all in one place.
           </p>
         </div>
+
         <div className="flex gap-4 xl:gap-6">
           {["Properties", "Admins", "Listings"].map((item) => (
             <div key={item} className="text-center">
@@ -77,11 +76,11 @@ export default function Login() {
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-10 sm:py-12">
         <div className="w-full max-w-sm sm:max-w-md">
 
-          {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-8 sm:mb-10 lg:hidden">
+          {/* Mobile logo — clicks back to home */}
+          <Link to="/" className="flex items-center gap-3 mb-8 sm:mb-10 lg:hidden hover:opacity-80 transition-opacity w-fit">
             <div className="w-2 h-7 sm:h-8 rounded-full" style={{ backgroundColor: "#F5A623" }} />
             <span className="text-lg sm:text-xl font-semibold" style={{ color: "#1B3A2D" }}>Blaze Horizon Realty</span>
-          </div>
+          </Link>
 
           <div className="mb-6 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "#1B3A2D" }}>Welcome back</h2>

@@ -25,7 +25,7 @@ function App() {
     <Routes>
 
       {/* ── Admin routes ── */}
-      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/properties" element={<AdminPropertiesPage />} />
       <Route path="/admin/properties/new" element={<AddPropertyPage />} />
