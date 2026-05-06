@@ -54,7 +54,15 @@ export default function AdminsPage() {
         await emailjs.send(
           import.meta.env.VITE_EMAILJS_SERVICE_ID,
           import.meta.env.VITE_EMAILJS_ADMIN_INVITE_TEMPLATE_ID,
-          { to_email: form.email, display_name: form.display_name, admin_email: form.email, temp_password: password, portal_url: `${window.location.origin}/admin/login` },
+          {
+            to_email: form.email,
+            name: "Blaze Horizon Realty",
+            title: "Admin Portal Invite",
+            display_name: form.display_name,
+            admin_email: form.email,
+            temp_password: password,
+            portal_url: `${window.location.origin}/admin/login`,
+          },
           import.meta.env.VITE_EMAILJS_PUBLIC_KEY
         );
         setEmailStatus("sent");
