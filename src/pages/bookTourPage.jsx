@@ -54,14 +54,14 @@ const BookTour = () => {
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
         access_key: import.meta.env.VITE_WEB3FORMS_TOUR_TEMPLATE_ID,
         subject: `Tour Request: ${formData.propertyName}`,
         from_name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         message: `
-        To Blaze Horizon Realty Team,
-
         A user with the name ${formData.firstName} ${formData.lastName} would like to schedule a tour concerning the property "${formData.propertyName}", located at ${formData.propertyAddress}, ${formData.propertyLocation}. The requested visit is scheduled for ${formData.preferredDate} at ${formData.preferredTime}.
 
         ${formData.message ? `The user has also left the following note: "${formData.message}"` : 'No additional notes were provided.'}
@@ -72,7 +72,7 @@ const BookTour = () => {
 
         Please reach out to the user at your earliest convenience to confirm their appointment.
 
-        — Blaze Horizon Realty Booking System
+        — Blaze Horizon Realty Booking System    
           `.trim()
         }),
         to_email: 'blazehorizonrealty@gmail.com',
