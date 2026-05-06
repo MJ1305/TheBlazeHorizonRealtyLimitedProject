@@ -54,8 +54,9 @@ const Footer = () => {
               Support
             </h5>
             <ul className="space-y-2 sm:space-y-2.5 md:space-y-3 text-[11px] sm:text-xs md:text-sm font-medium">
-              <li><a href="#" className="hover:text-brand-yellow transition-colors inline-block">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-brand-yellow transition-colors inline-block">Legal Terms</a></li>
+              <li><a href="/admin" className="hover:text-brand-yellow transition-colors inline-block">Admin</a></li>
+              <li><a href="/privacy-policy" className="hover:text-brand-yellow transition-colors inline-block">Privacy Policy</a></li>
+              <li><a href="/legal-terms" className="hover:text-brand-yellow transition-colors inline-block">Legal Terms</a></li>
               <li>
                 <button 
                   onClick={handleFaqClick}

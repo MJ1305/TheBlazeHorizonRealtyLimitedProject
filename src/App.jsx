@@ -9,6 +9,9 @@ import NotFound from "./pages/notFoundPage";
 import ComparePage from "./pages/comparePropertiesPage";
 import Navigation from "./Components/Shared/navbar";
 import ScrollToTop from "./Components/functions/scrollToTop";
+import Footer from "./Components/Shared/footer";
+import PrivacyPolicyPage from "./pages/privacyPolicyPage";
+import LegalTermsPage from "./pages/legalTerms";
 
 //Admins
 import AdminLogin from "./pages/adminPages/adminLoginPage";
@@ -50,9 +53,12 @@ function App() {
                 <Route path="/property/:slug" element={<PropertyDetails />} />
                 <Route path="/book-tour" element={<BookTour />} />
                 <Route path="/compare" element={<ComparePage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/legal-terms" element={<LegalTermsPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
+            <Footer/>
           </div>
         }
       />
