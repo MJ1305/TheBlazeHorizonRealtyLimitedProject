@@ -23,6 +23,10 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  //My Brain Wan Tear......
+  // console.log("URL:", import.meta.env.VITE_SUPABASE_URL);
+  // console.log("KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
