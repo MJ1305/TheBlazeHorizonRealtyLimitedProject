@@ -94,7 +94,7 @@ export default function AdminForgotPasswordPage() {
                 Didn't receive it? Check your spam folder or wait a few minutes before trying again.
               </div>
               <Link
-                to="/admin/login"
+                to="/admin"
                 className="inline-block w-full text-center py-2.5 sm:py-3 rounded-xl text-white text-sm font-semibold hover:opacity-90 transition-opacity"
                 style={{ backgroundColor: "#1B3A2D" }}
               >

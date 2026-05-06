@@ -135,7 +135,7 @@ export default function AdminResetPasswordPage() {
                   Your password has been changed successfully. You can now log in with your new password.
                 </p>
               </div>
-              <Link to="/admin/login" className="inline-block w-full text-center py-2.5 sm:py-3 rounded-xl text-white text-sm font-semibold hover:opacity-90" style={{ backgroundColor: "#1B3A2D" }}>
+              <Link to="/admin" className="inline-block w-full text-center py-2.5 sm:py-3 rounded-xl text-white text-sm font-semibold hover:opacity-90" style={{ backgroundColor: "#1B3A2D" }}>
                 Go to Login
               </Link>
             </div>
