@@ -8,10 +8,10 @@ import BookTour from "./pages/bookTourPage";
 import NotFound from "./pages/notFoundPage";
 import ComparePage from "./pages/comparePropertiesPage";
 import Navigation from "./Components/Shared/navbar";
-import ScrollToTop from "./Components/functions/scrollToTop";
 import Footer from "./Components/Shared/footer";
 import PrivacyPolicyPage from "./pages/privacyPolicyPage";
 import LegalTermsPage from "./pages/legalTerms";
+import ScrollToTop from "./Components/functions/scrollToTop";
 
 //Admins
 import AdminLogin from "./pages/adminPages/adminLoginPage";
@@ -42,8 +42,8 @@ function App() {
         path="/*"
         element={
           <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-            <Navigation />
-            <ScrollToTop />
+            <Navigation />   
+            <ScrollToTop/>         
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -57,7 +57,7 @@ function App() {
                 <Route path="/legal-terms" element={<LegalTermsPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </main>
+            </main>            
             <Footer/>
           </div>
         }

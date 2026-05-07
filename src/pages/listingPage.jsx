@@ -89,13 +89,16 @@ const Listing = () => {
             property.propertyType?.toLowerCase() === selectedType.toLowerCase(),
         );
 
-  // BEDROOM FILTER
+  // BEDROOM FILTER (FIXED)
   const filteredByBedrooms =
     selectedBedrooms === "all"
       ? filteredByPropertyType
-      : filteredByPropertyType.filter(
-          (property) => Number(property.beds) === Number(selectedBedrooms),
-        );
+      : filteredByPropertyType.filter((property) => {
+          const beds = Number(property.beds);
+          const selected = Number(selectedBedrooms);
+          if (selected === 5) return beds >= 5;
+          return beds === selected;
+        });
 
   // SEARCH FILTER
   const searchedProperties = filteredByBedrooms.filter((property) => {

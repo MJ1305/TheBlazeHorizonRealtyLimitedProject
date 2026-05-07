@@ -27,9 +27,15 @@ const FieldGroup = ({ children }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
 );
 
-const Field = ({ label, children }) => (
-  <div className="space-y-1.5">
-    <label className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>{label}</label>
+// Field now accepts a disabled prop — fades the whole block when land is selected
+const Field = ({ label, children, disabled = false }) => (
+  <div className={`space-y-1.5 transition-opacity duration-200 ${disabled ? "opacity-40 pointer-events-none select-none" : ""}`}>
+    <label className="text-xs font-semibold uppercase tracking-wide flex items-center gap-2" style={{ color: "#1B3A2D" }}>
+      {label}
+      {disabled && (
+        <span className="normal-case font-normal text-gray-400 text-[10px] tracking-normal">— not applicable</span>
+      )}
+    </label>
     {children}
   </div>
 );
@@ -52,7 +58,6 @@ export default function AddPropertyPage() {
   const [draftSaved, setDraftSaved] = useState(false);
   const [form, setForm] = useState(emptyForm);
 
-  // Always tracks latest form value — prevents stale closure in interval
   const formRef = useRef(form);
   useEffect(() => {
     formRef.current = form;
@@ -67,8 +72,6 @@ export default function AddPropertyPage() {
           .select("draft_data")
           .eq("admin_id", user.id)
           .single();
-
-        // Only restore if draft has real content
         if (data?.draft_data && data.draft_data.title?.trim()) {
           setForm(data.draft_data);
         }
@@ -79,11 +82,10 @@ export default function AddPropertyPage() {
 
     loadDraft();
 
-    // Auto-save every 30 seconds using ref so form is never stale
     const interval = setInterval(async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!formRef.current.title?.trim()) return; // don't save empty drafts
+        if (!formRef.current.title?.trim()) return;
         await supabase.from("property_drafts").upsert({
           admin_id: user.id,
           draft_data: formRef.current,
@@ -98,6 +100,8 @@ export default function AddPropertyPage() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const isLand = form.property_type === "land";
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -146,9 +150,12 @@ export default function AddPropertyPage() {
       const { data: { user } } = await supabase.auth.getUser();
       const payload = {
         ...form,
-        amenities: form.amenities.split(",").map((a) => a.trim()).filter(Boolean),
-        bedrooms: parseInt(form.bedrooms),
-        bathrooms: parseInt(form.bathrooms),
+        // Land properties: null out all non-applicable fields
+        bedrooms: isLand ? null : parseInt(form.bedrooms),
+        bathrooms: isLand ? null : parseInt(form.bathrooms),
+        parking: isLand ? null : form.parking,
+        year_built: isLand ? null : form.year_built,
+        amenities: isLand ? [] : form.amenities.split(",").map((a) => a.trim()).filter(Boolean),
         price: form.price ? parseFloat(form.price) : null,
         created_by: user.id,
         updated_by: user.id,
@@ -200,6 +207,7 @@ export default function AddPropertyPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
 
+          {/* ── Basic Information ── */}
           <SectionCard
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>}
             title="Basic Information"
@@ -235,6 +243,7 @@ export default function AddPropertyPage() {
             </FieldGroup>
           </SectionCard>
 
+          {/* ── Location ── */}
           <SectionCard
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>}
             title="Location"
@@ -256,47 +265,94 @@ export default function AddPropertyPage() {
             </FieldGroup>
           </SectionCard>
 
+          {/* ── Property Details ── */}
           <SectionCard
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
             title="Property Details"
             subtitle="Rooms, size and amenities"
           >
+            {/* Land notice banner */}
+            {isLand && (
+              <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200">
+                <svg className="flex-shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b45309" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <p className="text-xs text-amber-700 font-medium leading-relaxed">
+                  You selected <strong>Land</strong> as the property type. Bedrooms, bathrooms, parking, year built and amenities are greyed out and will be saved as empty — only area is required.
+                </p>
+              </div>
+            )}
+
+            {/* Row 1: Bedrooms, Bathrooms, Area, Year Built */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: "Bedrooms", name: "bedrooms", placeholder: "4", type: "number" },
-                { label: "Bathrooms", name: "bathrooms", placeholder: "3", type: "number" },
-                { label: "Area (sqft)", name: "area_sqft", placeholder: "2,400", type: "text" },
-                { label: "Year Built", name: "year_built", placeholder: "2022", type: "text" },
-              ].map((f) => (
-                <Field key={f.name} label={f.label}>
-                  <Input
-                    className={styledInput}
-                    type={f.type}
-                    name={f.name}
-                    value={form[f.name]}
-                    onChange={handleChange}
-                    placeholder={f.placeholder}
-                    required={f.name !== "year_built"}
-                    min={f.type === "number" ? "1" : undefined}
-                  />
-                </Field>
-              ))}
+              <Field label="Bedrooms" disabled={isLand}>
+                <Input
+                  className={styledInput} type="number"
+                  name="bedrooms" value={form.bedrooms}
+                  onChange={handleChange} placeholder="4"
+                  required={!isLand} min="1"
+                  disabled={isLand}
+                />
+              </Field>
+              <Field label="Bathrooms" disabled={isLand}>
+                <Input
+                  className={styledInput} type="number"
+                  name="bathrooms" value={form.bathrooms}
+                  onChange={handleChange} placeholder="3"
+                  required={!isLand} min="1"
+                  disabled={isLand}
+                />
+              </Field>
+              <Field label="Area (sqft)">
+                <Input
+                  className={styledInput} type="text"
+                  name="area_sqft" value={form.area_sqft}
+                  onChange={handleChange} placeholder="2,400"
+                  required
+                />
+              </Field>
+              <Field label="Year Built" disabled={isLand}>
+                <Input
+                  className={styledInput} type="text"
+                  name="year_built" value={form.year_built}
+                  onChange={handleChange} placeholder="2022"
+                  disabled={isLand}
+                />
+              </Field>
             </div>
+
+            {/* Row 2: Parking, Status */}
             <FieldGroup>
-              <Field label="Parking">
-                <Input className={styledInput} name="parking" value={form.parking} onChange={handleChange} placeholder="e.g. 2 spaces" />
+              <Field label="Parking" disabled={isLand}>
+                <Input
+                  className={styledInput}
+                  name="parking" value={form.parking}
+                  onChange={handleChange} placeholder="e.g. 2 spaces"
+                  disabled={isLand}
+                />
               </Field>
               <Field label="Status">
                 <select name="status" value={form.status} onChange={handleChange} className={styledSelect}>
-                  {statusOptions.map((s) => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+                  {statusOptions.map((s) => (
+                    <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+                  ))}
                 </select>
               </Field>
             </FieldGroup>
-            <Field label="Amenities (comma separated)">
-              <Input className={styledInput} name="amenities" value={form.amenities} onChange={handleChange} placeholder="Swimming Pool, Gym, 24/7 Security, Elevator, Parking" />
+
+            {/* Row 3: Amenities */}
+            <Field label="Amenities (comma separated)" disabled={isLand}>
+              <Input
+                className={styledInput}
+                name="amenities" value={form.amenities}
+                onChange={handleChange}
+                placeholder="Swimming Pool, Gym, 24/7 Security, Elevator, Parking"
+                disabled={isLand}
+              />
             </Field>
           </SectionCard>
 
+          {/* ── Pricing ── */}
           <SectionCard
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>}
             title="Pricing"
@@ -327,11 +383,13 @@ export default function AddPropertyPage() {
             </FieldGroup>
           </SectionCard>
 
+          {/* ── Images ── */}
           <SectionCard
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>}
             title="Images"
             subtitle="Upload a cover image and gallery photos via Cloudinary"
           >
+            {/* Cover Image */}
             <div className="space-y-3">
               <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>Cover Image</p>
               <label className="flex flex-col items-center justify-center w-full h-36 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 cursor-pointer hover:border-green-800 transition-colors">
@@ -339,7 +397,9 @@ export default function AddPropertyPage() {
                   <img src={form.cover_image} alt="Cover" className="h-full w-full object-cover rounded-xl" />
                 ) : (
                   <div className="text-center">
-                    <svg className="mx-auto mb-2 text-gray-300" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg className="mx-auto mb-2 text-gray-300" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                    </svg>
                     <p className="text-sm text-gray-400">Click to upload cover image</p>
                     <p className="text-xs text-gray-300 mt-1">PNG, JPG up to 10MB</p>
                   </div>
@@ -348,12 +408,11 @@ export default function AddPropertyPage() {
               </label>
             </div>
 
+            {/* Gallery Images */}
             <div className="space-y-3">
               <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#1B3A2D" }}>
                 Gallery Images
-                <span className="ml-2 font-normal text-gray-400 normal-case">
-                  ({form.images.length}/4 uploaded)
-                </span>
+                <span className="ml-2 font-normal text-gray-400 normal-case">({form.images.length}/4 uploaded)</span>
               </p>
               <label
                 className={`flex flex-col items-center justify-center w-full h-24 rounded-xl border-2 border-dashed bg-gray-50 transition-colors
@@ -367,12 +426,7 @@ export default function AddPropertyPage() {
                     {form.images.length >= 4 ? "Remove an image to add another" : `${4 - form.images.length} slot(s) remaining`}
                   </p>
                 </div>
-                <input
-                  type="file" accept="image/*" multiple
-                  onChange={(e) => handleImageUpload(e, false)}
-                  className="hidden"
-                  disabled={form.images.length >= 4}
-                />
+                <input type="file" accept="image/*" multiple onChange={(e) => handleImageUpload(e, false)} className="hidden" disabled={form.images.length >= 4} />
               </label>
 
               {uploadingImages && (
@@ -407,6 +461,7 @@ export default function AddPropertyPage() {
             </div>
           </SectionCard>
 
+          {/* ── Footer Actions ── */}
           <div className="sticky bottom-0 bg-white border-t border-gray-200 rounded-xl p-4 flex items-center justify-between shadow-lg">
             <p className="text-sm text-gray-400">All required fields must be filled before saving.</p>
             <div className="flex gap-3">

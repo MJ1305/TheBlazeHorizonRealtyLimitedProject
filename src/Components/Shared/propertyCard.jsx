@@ -41,13 +41,21 @@ const PropertyCard = ({
           {location}
         </p>
         
-        {/* Property specs - Responsive spacing and wrapping */}
+        {/* Property specs - CHANGED: only show beds/baths if they exist */}
         <div className="flex gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 text-gray-400 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-bold uppercase tracking-widest mb-3 sm:mb-4 md:mb-5 lg:mb-6 flex-wrap">
-          <span>{beds} Beds</span>
-          <span>•</span>
-          <span>{baths} Baths</span>
-          <span>•</span>
-          <span>{sqft.toLocaleString()} sqft</span>
+          {beds && (
+            <>
+              <span>{beds} Beds</span>
+              <span>•</span>
+            </>
+          )}
+          {baths && (
+            <>
+              <span>{baths} Baths</span>
+              <span>•</span>
+            </>
+          )}
+          {sqft && <span>{Number(sqft).toLocaleString()} sqft</span>}
         </div>
         
         {/* More Info Button - Responsive padding and icon size */}
